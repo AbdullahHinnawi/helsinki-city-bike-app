@@ -1,26 +1,25 @@
 import express from 'express'
 import cors from 'cors'
-import mongoose from 'mongoose'
 import config from './utils/config'
 import middleware from './utils/middleware'
 import logger from './utils/logger'
+import { connectToDB } from './db/db'
 
-const app = express()
 
-logger.info('connecting to', config.MONGODB_URI)
+const app = express();
 
-const options = {};
-
-mongoose.connect(config.MONGODB_URI, options).then(() => {
-    logger.info('connected to MongoDB')
-}).catch((error) => {
-    logger.error('error connection to MongoDB:', error.message)
-})
+// Connect to db
+(async () => {
+    logger.info('connecting to', config.MONGODB_URI)
+    await connectToDB()
+})();
 
 app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
+
+
 
 
 app.use(middleware.unknownEndpoint)
