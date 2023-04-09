@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "strict": true,
     "module": "commonjs",
     "target": "es2022",
