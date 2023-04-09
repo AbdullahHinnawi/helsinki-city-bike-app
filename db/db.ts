@@ -17,3 +17,7 @@ export const connectToDB = async (): Promise<void> => {
 }
 
 export const db = mongoose.connection;
+
+export const dropCollection = async (collection: string) => {
+  return await db.collection(collection).drop()
+}

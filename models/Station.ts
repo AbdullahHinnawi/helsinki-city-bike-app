@@ -1,12 +1,14 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import mongoosePaginate from "mongoose-paginate-v2";
+import { IStationDocument } from '../types/modeTypes';
 /**
  * Station Schema
  */
-const stationSchema = new mongoose.Schema({
+const stationSchema: Schema = new mongoose.Schema({
   fid: {
     type: Number,
   },
-  id: {
+  stationId: {
     type: Number,
   },
   nimi: {
@@ -44,4 +46,6 @@ const stationSchema = new mongoose.Schema({
   }
 })
 
-export default mongoose.model('Station', stationSchema)
+stationSchema.plugin(mongoosePaginate);
+
+export default mongoose.model<IStationDocument, mongoose.PaginateModel<IStationDocument>>('Station', stationSchema)

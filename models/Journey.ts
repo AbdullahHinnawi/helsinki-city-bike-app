@@ -1,9 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import mongoosePaginate from "mongoose-paginate-v2";
+import { IJourneyDocument } from '../types/modeTypes';
 
 /**
  * Journey Schema
  */
-const journeySchema = new mongoose.Schema({
+const journeySchema: Schema = new mongoose.Schema({
     departure: {
         type: Date,
     },
@@ -30,4 +32,6 @@ const journeySchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Journey', journeySchema)
+journeySchema.plugin(mongoosePaginate);
+
+export default mongoose.model<IJourneyDocument, mongoose.PaginateModel<IJourneyDocument>>('Journey', journeySchema)
