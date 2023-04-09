@@ -25,7 +25,6 @@ export const getJourneys = async (req: Request, res: Response, next: NextFunctio
     try {
         const { query, options } = req.body
         const result = await Journey.paginate(query, options)
-        console.log("result", result)
         return res.status(200).json(result)
     } catch (exception: unknown) {
         return next(exception)
