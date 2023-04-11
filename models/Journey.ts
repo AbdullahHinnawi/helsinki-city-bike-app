@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import mongoosePaginate from "mongoose-paginate-v2";
-import { IJourneyDocument } from '../types/modeTypes';
+import { IJourneyDocument } from '../types/modelTypes';
 
 /**
  * Journey Schema

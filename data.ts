@@ -5,7 +5,7 @@ import StationModel from './models/Station';
 import * as fastcsv from "fast-csv";
 import { connectToDB, dropCollection } from './db/db';
 import logger from './utils/logger';
-import { IStationDocument } from './types/modeTypes';
+import { IStationDocument } from './types/modelTypes';
 
 /**
  * @info To run this module use:  npm run insert-data

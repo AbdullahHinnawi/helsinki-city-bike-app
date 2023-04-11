@@ -13,6 +13,8 @@ const reducer = combineReducers({
   journey: journeyReducer,
 })
 
+export type RootState = ReturnType<typeof reducer>
+
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export default store

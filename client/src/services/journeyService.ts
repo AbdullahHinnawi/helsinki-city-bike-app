@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+const baseUrl = 'http://localhost:3001/api'
 
 /**
  * @function
@@ -7,7 +8,7 @@ import axios from 'axios'
  * @returns
  */
 const getJourneys = async (reqBody: any) => {
-  const res = await axios.post('/api/journeys', reqBody)
+  const res = await axios.post(`${baseUrl}/journeys`, reqBody)
   return res.data
 }
 
@@ -18,7 +19,7 @@ const getJourneys = async (reqBody: any) => {
  * @returns created station object
  */
 const createJourney = async (newStation: any) => {
-  const res = await axios.post('/api/journeys/create', newStation)
+  const res = await axios.post(`${baseUrl}/journeys/create`, newStation)
   return res.data
 }
 

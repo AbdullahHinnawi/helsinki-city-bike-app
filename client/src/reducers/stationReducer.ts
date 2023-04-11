@@ -1,7 +1,15 @@
-import { StationState, StationAction, FETCH_STATIONS, CREATE_STATION } from '../types/stationTypes'
+import { StationState, StationAction, FETCH_STATIONS, CREATE_STATION, StationSearch, SET_STATION_SEARCH } from '../types/stationTypes'
 
+const initialStationSearch: StationSearch = {
+  query: {},
+  options: {
+    page: 1,
+    limit: 100
+  }
+}
 const initialState: StationState = {
-  stations: [],
+  stationsResponse: undefined,
+  search: initialStationSearch
 }
 /**
  * @desc Station reducer that controls station state
@@ -14,12 +22,17 @@ const stationReducer = (state = initialState, action: StationAction) => {
   case FETCH_STATIONS:
     return {
       ...state,
-      stations: action.data?.docs,
+      stationsResponse: action.data,
     }
   case CREATE_STATION:
     return {
       ...state,
-      stations: [...state.stations, action.data],
+      stationsResponse: { ...state.stationsResponse, docs: [...state.stationsResponse.docs, action.data] },
+    }
+  case SET_STATION_SEARCH:
+    return {
+      ...state,
+      search: action.data,
     }
   default:
     return state

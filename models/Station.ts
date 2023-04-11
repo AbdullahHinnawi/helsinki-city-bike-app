@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import mongoosePaginate from "mongoose-paginate-v2";
-import { IStationDocument } from '../types/modeTypes';
+import { IStationDocument } from '../types/modelTypes';
 /**
  * Station Schema
  */
