@@ -10,10 +10,7 @@ import { Dispatch } from 'redux'
 export const fetchStations = (stationSearch: any) => async (dispatch: Dispatch<any>) => {
   try {
     const result = await stationService.getStations(stationSearch)
-    dispatch({
-      type: FETCH_STATIONS,
-      data: result,
-    })
+    dispatch({ type: FETCH_STATIONS, data: result })
   } catch (error) {
     console.log(error)
   }

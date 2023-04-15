@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { baseUrl } from '../utils/config'
 
 /**
  * @function
@@ -6,7 +7,7 @@ import axios from 'axios'
  * @returns
  */
 const getStations = async (reqBody: any) => {
-  const res = await axios.post('/api/stations', reqBody)
+  const res = await axios.post(`${baseUrl}/api/stations`, reqBody)
   return res.data
 }
 
@@ -17,7 +18,7 @@ const getStations = async (reqBody: any) => {
  * @returns created station object
  */
 const createStation = async (newStation: any) => {
-  const res = await axios.post('/api/stations/create', newStation)
+  const res = await axios.post(`${baseUrl}/api/stations/create`, newStation)
   return res.data
 }
 
