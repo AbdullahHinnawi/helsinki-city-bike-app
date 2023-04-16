@@ -22,6 +22,16 @@ const createStation = async (newStation: any) => {
   return res.data
 }
 
+/**
+ * @function
+ * @desc Get station stats
+ * @returns
+ */
+const getStationStats = async (stationId: number) => {
+  const res = await axios.get(`${baseUrl}/api/stations/${stationId}`)
+  return res.data
+}
 
-const stationService = { getStations, createStation }
+
+const stationService = { getStations, createStation, getStationStats }
 export default stationService

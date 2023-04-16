@@ -13,13 +13,14 @@ import { RootState } from '../../store'
 import StationsTable from './StationsTable'
 import { fetchStations, setStationSearch } from '../../actions/stationActions'
 import { StationSearch } from '../../types/stationTypes'
+import StationView from './StationView'
 
 /**
  * @component
  * @desc Renders stations page
  */
 const StationsPage = () => {
-  const { stationsResponse, search } = useSelector(
+  const { stationsResponse, stationsLoading, search } = useSelector(
     (state: RootState) => state.station
   )
 
@@ -46,6 +47,7 @@ const StationsPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
+      <StationView />
       <Grid container>
         <Grid item xs={12} sx={{ textAlign: 'center' }}>
           <Typography variant="h4">Stations</Typography>
@@ -63,7 +65,10 @@ const StationsPage = () => {
               handleChange={handleChange}
             />
             {stationsResponse?.docs?.length > 0 && (
-              <StationsTable stations={stationsResponse?.docs} />
+              <StationsTable
+                stations={stationsResponse?.docs}
+                stationsLoading={stationsLoading}
+              />
             )}
             <ControlledPagination
               count={stationsResponse?.totalPages}

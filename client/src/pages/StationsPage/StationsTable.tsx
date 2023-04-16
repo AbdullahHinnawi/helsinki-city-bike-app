@@ -9,8 +9,10 @@ import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
-import { IJourneyDoc } from '../../types/journeyTypes'
 import { IStationDoc } from '../../types/stationTypes'
+import { getStationStats } from '../../actions/stationActions'
+import { useDispatch } from 'react-redux'
+import { CircularProgress, Toolbar } from '@mui/material'
 
 interface Data {
   id: string | number
@@ -157,6 +159,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface StationsTableProps {
   stations: IStationDoc[]
+  stationsLoading: boolean
 }
 
 /**
@@ -164,14 +167,15 @@ interface StationsTableProps {
  * @desc Renders journeys table
  * @props journeys - array of journey objects
  */
-const StationsTable = ({ stations }: StationsTableProps) => {
+const StationsTable = ({ stations, stationsLoading }: StationsTableProps) => {
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('nimi')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(25)
   const rows: Data[] = stations?.map((s: IStationDoc) => {
-    return createData(s._id, s.nimi, s.osoite, s.kapasiteet)
+    return createData(s.stationId, s.nimi, s.osoite, s.kapasiteet)
   })
+  const dispatch: React.Dispatch<any> = useDispatch()
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -184,6 +188,10 @@ const StationsTable = ({ stations }: StationsTableProps) => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
+  }
+
+  const handleStationClick = (stationId: number) => {
+    dispatch(getStationStats(Number(stationId)))
   }
 
   const handleChangeRowsPerPage = (
@@ -200,15 +208,23 @@ const StationsTable = ({ stations }: StationsTableProps) => {
   return (
     <Box sx={{ width: '100%', minWidth: '1000px' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          component="div"
-          count={rows?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 } }}>
+          <Box sx={{ flex: '1 1 100%' }}>
+            {stationsLoading && (
+              <CircularProgress style={{ width: '28px', height: '28px' }} />
+            )}
+          </Box>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            component="div"
+            count={rows?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Toolbar>
+
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -230,7 +246,13 @@ const StationsTable = ({ stations }: StationsTableProps) => {
                   const labelId = `enhanced-table-checkbox-${index}`
 
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.id}
+                      onClick={() => handleStationClick(Number(row.id))}
+                    >
                       <TableCell
                         component="th"
                         align="left"

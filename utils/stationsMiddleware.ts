@@ -110,8 +110,8 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
       },
     ]
 
-    let station = await Station.aggregate(pipeline)
-    return res.status(200).json({ station })
+    let result = await Station.aggregate(pipeline)
+    return res.status(200).json(result[0])
 
   } catch (exception: unknown) {
     return next(exception)
