@@ -65,3 +65,56 @@ export const createStation = async (req: Request, res: Response, next: NextFunct
   }
 
 }
+
+/**
+ * Used to get a station statistics including departure journeys count, return journeys count,
+ * departure journeys average distance and return journeys average distance.
+ * @param req - Express Request.
+ * @param res - Express Response.
+ * @param next - Next function
+ * @returns station object
+ */
+
+export const getStationStats = async (req: Request, res: Response, next: NextFunction) => {
+
+  try {
+    const { stationId } = req.params
+
+    const pipeline = [
+      {
+        $match: { stationId: Number(stationId) }
+      },
+      {
+        $lookup: {
+          from: 'journeys',
+          localField: 'stationId',
+          foreignField: 'departureStationId',
+          as: 'departureJourneys'
+        },
+      },
+      {
+        $lookup: {
+          from: 'journeys',
+          localField: 'stationId',
+          foreignField: 'returnStationId',
+          as: 'returnJourneys'
+        },
+      },
+      {
+        $addFields: {
+          departureJourneysCount: { $size: "$departureJourneys" },
+          returnJourneysCount: { $size: "$returnJourneys" },
+          departureJourneysDistanceAverage: { $avg: '$departureJourneys.coveredDistance' },
+          returnJourneysDistanceAverage: { $avg: '$returnJourneys.coveredDistance' },
+        },
+      },
+    ]
+
+    let station = await Station.aggregate(pipeline)
+    return res.status(200).json({ station })
+
+  } catch (exception: unknown) {
+    return next(exception)
+  }
+
+}

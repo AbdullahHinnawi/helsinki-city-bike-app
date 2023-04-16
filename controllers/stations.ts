@@ -1,5 +1,5 @@
 import express from 'express'
-import { createStation, getStations } from '../utils/stationsMiddleware';
+import { createStation, getStationStats, getStations } from '../utils/stationsMiddleware';
 
 const stationsRouter = express.Router()
 
@@ -13,5 +13,10 @@ stationsRouter.post('/', getStations)
  * @info Route to create a new station
  */
 stationsRouter.post('/create', createStation)
+
+/**
+ * @info Route to get a station statistics by station id
+ */
+stationsRouter.get('/:stationId', getStationStats)
 
 export default stationsRouter;
