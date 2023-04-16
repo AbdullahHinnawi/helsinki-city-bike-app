@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import journeyService from './../services/journeyService'
-import { CREATE_JOURNEY, FETCH_JOURNEYS, JourneySearch, SET_JOURNEY_SEARCH } from './../types/journeyTypes'
+import { CREATE_JOURNEY, FETCH_JOURNEYS, JourneySearch, SET_JOURNEYS_LOADING, SET_JOURNEY_SEARCH } from './../types/journeyTypes'
 
 /**
  * @function
@@ -9,8 +9,10 @@ import { CREATE_JOURNEY, FETCH_JOURNEYS, JourneySearch, SET_JOURNEY_SEARCH } fro
  */
 export const fetchJourneys = (journeySearch: JourneySearch) => async (dispatch: Dispatch<any>) => {
   try {
+    dispatch({ type: SET_JOURNEYS_LOADING, data: true })
     const result = await journeyService.getJourneys(journeySearch)
     dispatch({ type: FETCH_JOURNEYS, data: result })
+    dispatch({ type: SET_JOURNEYS_LOADING, data: false })
   } catch (error) {
     console.log(error)
   }

@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
 import { IJourneyDoc } from '../../types/journeyTypes'
+import { CircularProgress, Toolbar } from '@mui/material'
 
 interface Data {
   id: string | number
@@ -165,6 +166,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface JourneysTableProps {
   journeys: IJourneyDoc[]
+  journeysLoading: boolean
 }
 
 /**
@@ -172,7 +174,7 @@ interface JourneysTableProps {
  * @desc Renders journeys table
  * @props journeys - array of journey objects
  */
-const JourneysTable = ({ journeys }: JourneysTableProps) => {
+const JourneysTable = ({ journeys, journeysLoading }: JourneysTableProps) => {
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('duration')
   const [page, setPage] = React.useState(0)
@@ -214,15 +216,22 @@ const JourneysTable = ({ journeys }: JourneysTableProps) => {
   return (
     <Box sx={{ width: '100%', minWidth: '1000px' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          component="div"
-          count={rows?.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        <Toolbar sx={{ pl: { sm: 2 }, pr: { xs: 1, sm: 1 } }}>
+          <Box sx={{ flex: '1 1 100%' }}>
+            {journeysLoading && (
+              <CircularProgress style={{ width: '28px', height: '28px' }} />
+            )}
+          </Box>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            component="div"
+            count={rows?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Toolbar>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

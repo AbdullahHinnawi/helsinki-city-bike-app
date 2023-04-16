@@ -18,7 +18,7 @@ import JourneysTable from './JourneysTable'
  * @desc Renders journeys page
  */
 const JourneysPage = () => {
-  const { journeysResponse, search } = useSelector(
+  const { journeysResponse, search, journeysLoading } = useSelector(
     (state: RootState) => state.journey
   )
 
@@ -61,7 +61,10 @@ const JourneysPage = () => {
               handleChange={handleChange}
             />
             {journeysResponse?.docs?.length > 0 && (
-              <JourneysTable journeys={journeysResponse?.docs} />
+              <JourneysTable
+                journeys={journeysResponse?.docs}
+                journeysLoading={journeysLoading}
+              />
             )}
             <ControlledPagination
               count={journeysResponse?.totalPages}

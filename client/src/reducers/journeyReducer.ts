@@ -1,4 +1,4 @@
-import { JourneyAction, FETCH_JOURNEYS, CREATE_JOURNEY, JourneyState, SET_JOURNEY_SEARCH, JourneySearch } from './../types/journeyTypes'
+import { JourneyAction, FETCH_JOURNEYS, CREATE_JOURNEY, JourneyState, SET_JOURNEY_SEARCH, JourneySearch, SET_JOURNEYS_LOADING } from './../types/journeyTypes'
 
 const initialJourneySearch: JourneySearch = {
   query: {},
@@ -9,7 +9,8 @@ const initialJourneySearch: JourneySearch = {
 }
 const initialState: JourneyState = {
   journeysResponse: undefined,
-  search: initialJourneySearch
+  search: initialJourneySearch,
+  journeysLoading: false
 }
 /**
  * @desc Journey reducer that controls journey state
@@ -33,6 +34,11 @@ const journeyReducer = (state = initialState, action: JourneyAction) => {
     return {
       ...state,
       search: action.data,
+    }
+  case SET_JOURNEYS_LOADING:
+    return {
+      ...state,
+      journeysLoading: action.data,
     }
   default:
     return state
