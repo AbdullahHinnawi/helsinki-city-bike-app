@@ -13,7 +13,6 @@ import { RootState } from '../../store'
 import StationsTable from './StationsTable'
 import { fetchStations, setStationSearch } from '../../actions/stationActions'
 import { StationSearch } from '../../types/stationTypes'
-import StationView from './StationView'
 
 /**
  * @component
@@ -47,7 +46,6 @@ const StationsPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
-      <StationView />
       <Grid container>
         <Grid item xs={12} sx={{ textAlign: 'center' }}>
           <Typography variant="h4">Stations</Typography>

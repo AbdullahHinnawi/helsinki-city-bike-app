@@ -10,10 +10,8 @@ import TableRow from '@mui/material/TableRow'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Paper from '@mui/material/Paper'
 import { IStationDoc } from '../../types/stationTypes'
-import { getStationStats } from '../../actions/stationActions'
-import { useDispatch } from 'react-redux'
 import { CircularProgress, Toolbar } from '@mui/material'
-
+import { useNavigate } from 'react-router-dom'
 interface Data {
   id: string | number
   nimi: string
@@ -175,7 +173,7 @@ const StationsTable = ({ stations, stationsLoading }: StationsTableProps) => {
   const rows: Data[] = stations?.map((s: IStationDoc) => {
     return createData(s.stationId, s.nimi, s.osoite, s.kapasiteet)
   })
-  const dispatch: React.Dispatch<any> = useDispatch()
+  const navigate = useNavigate()
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -191,7 +189,7 @@ const StationsTable = ({ stations, stationsLoading }: StationsTableProps) => {
   }
 
   const handleStationClick = (stationId: number) => {
-    dispatch(getStationStats(Number(stationId)))
+    navigate(`/stations/${stationId}`)
   }
 
   const handleChangeRowsPerPage = (
@@ -248,10 +246,10 @@ const StationsTable = ({ stations, stationsLoading }: StationsTableProps) => {
                   return (
                     <TableRow
                       hover
-                      role="checkbox"
                       tabIndex={-1}
                       key={row.id}
                       onClick={() => handleStationClick(Number(row.id))}
+                      sx={{ '&.MuiTableRow-hover': { cursor: 'pointer' } }}
                     >
                       <TableCell
                         component="th"

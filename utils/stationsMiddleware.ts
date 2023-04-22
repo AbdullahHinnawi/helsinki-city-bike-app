@@ -108,6 +108,35 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
           returnJourneysDistanceAverage: { $avg: '$returnJourneys.coveredDistance' },
         },
       },
+      {
+        $lookup: {
+          from: 'journeys',
+          localField: 'stationId',
+          foreignField: 'departureStationId',
+          pipeline: [
+            {
+              $sortByCount: '$returnStationName',
+            },
+            { $limit: 5 }
+          ],
+          as: 'mostPopularReturnStationsForDepartureStations'
+        },
+      },
+      {
+        $lookup: {
+          from: 'journeys',
+          localField: 'stationId',
+          foreignField: 'returnStationId',
+          pipeline: [
+            {
+              $sortByCount: '$departureStationName',
+            },
+            { $limit: 5 }
+          ],
+          as: 'mostPopularDepartureStationsForReturnStations'
+        },
+      }
+
     ]
 
     let result = await Station.aggregate(pipeline)
