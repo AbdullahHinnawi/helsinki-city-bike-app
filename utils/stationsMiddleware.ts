@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import Station from "../models/Station"
+import { isStartEndDateRangeValid } from "./helpers"
 
 
 
@@ -78,7 +79,24 @@ export const createStation = async (req: Request, res: Response, next: NextFunct
 export const getStationStats = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    const { stationId } = req.params
+    const { stationId, startDate, endDate } = req.params
+
+    let andProp: any[] = []
+
+    if (isStartEndDateRangeValid(startDate, endDate)) {
+
+      const sDate: Date = new Date(startDate)
+      let eDate: Date = new Date(endDate)
+      eDate.setDate(eDate.getDate() + 1);
+
+      andProp = [
+        { $gte: ["$departure", sDate] },
+        { $lte: ["$departure", eDate] },
+        { $gte: ["$return", sDate] },
+        { $lte: ["$return", eDate] }
+      ]
+    }
+
 
     const pipeline = [
       {
@@ -89,6 +107,15 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
           from: 'journeys',
           localField: 'stationId',
           foreignField: 'departureStationId',
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: andProp
+                }
+              }
+            }
+          ],
           as: 'departureJourneys'
         },
       },
@@ -97,6 +124,15 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
           from: 'journeys',
           localField: 'stationId',
           foreignField: 'returnStationId',
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: andProp
+                }
+              }
+            }
+          ],
           as: 'returnJourneys'
         },
       },
@@ -115,6 +151,13 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
           foreignField: 'departureStationId',
           pipeline: [
             {
+              $match: {
+                $expr: {
+                  $and: andProp
+                }
+              }
+            },
+            {
               $sortByCount: '$returnStationName',
             },
             { $limit: 5 }
@@ -128,6 +171,13 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
           localField: 'stationId',
           foreignField: 'returnStationId',
           pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: andProp
+                }
+              }
+            },
             {
               $sortByCount: '$departureStationName',
             },

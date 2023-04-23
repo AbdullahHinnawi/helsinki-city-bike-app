@@ -17,6 +17,6 @@ stationsRouter.post('/create', createStation)
 /**
  * @info Route to get a station statistics by station id
  */
-stationsRouter.get('/:stationId', getStationStats)
+stationsRouter.get('/:stationId/:startDate/:endDate', getStationStats)
 
 export default stationsRouter;
