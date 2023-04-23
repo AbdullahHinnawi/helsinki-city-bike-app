@@ -34,8 +34,8 @@ const StationStats = () => {
           <Grid item xs={12} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h3">{currentStation.nimi}</Typography>
             <Typography variant="body1">
-              {currentStation.osoite}{' '}
-              {currentStation.kaupunki ? currentStation.kaupunki : ''}
+              {currentStation.osoite}
+              {currentStation.kaupunki ? `, ${currentStation.kaupunki}` : ''}
             </Typography>
           </Grid>
 

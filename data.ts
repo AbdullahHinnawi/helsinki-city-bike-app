@@ -93,11 +93,11 @@ export const insertBikeStationsIntoDB = (): void => {
   const stations: IStationDocument[] = []
   const stream = fs.createReadStream(`datasets/bike-stations.csv`);
   const csvStream = fastcsv.parse({
-    headers: ['fid', 'stationId', 'nimi', 'namn', 'name', 'osoite', 'address', 'kaupunki', 'stad', 'operaattor', 'kapasiteet', 'x', 'y'], renameHeaders: true,
+    headers: ['fid', 'stationId', 'nimi', 'namn', 'name', 'osoite', 'address', 'kaupunki', 'stad', 'operaattor', 'kapasiteet', 'y', 'x'], renameHeaders: true,
     ignoreEmpty: true
   })
     .validate((row: any) => {
-      if (Number(row['fid']) && Number(row['stationId']) && row['nimi'] && row['namn'] && row['name'] && row['osoite'] && row['address'] && Number(row['kapasiteet']) && Number(row['x']) && Number(row['y'])) {
+      if (Number(row['fid']) && Number(row['stationId']) && row['nimi'] && row['namn'] && row['name'] && row['osoite'] && row['address'] && Number(row['kapasiteet']) && Number(row['y']) && Number(row['x'])) {
 
         if (row['kaupunki'] === ' ') {
           row['kaupunki'] = ''

@@ -6,15 +6,15 @@ import { RootState } from '../../store'
 import { getStationStats } from '../../actions/stationActions'
 import StationStats from './StationStats'
 import { useParams } from 'react-router-dom'
+import MapView from './MapView'
 
 /**
  * @component
  * @desc Renders station stats page
  */
 const StaionStatsPage = () => {
-  const { stationsResponse, stationsLoading, search } = useSelector(
-    (state: RootState) => state.station
-  )
+  const { stationsResponse, stationsLoading, search, currentStation } =
+    useSelector((state: RootState) => state.station)
 
   const dispatch: Dispatch<any> = useDispatch()
 
@@ -26,7 +26,7 @@ const StaionStatsPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
-      <Grid container>
+      <Grid container columnSpacing={2}>
         <Grid item xs={6}>
           <StationStats />
         </Grid>
@@ -34,13 +34,13 @@ const StaionStatsPage = () => {
         <Grid item xs={4}>
           <Box
             sx={{
-              backgroundColor: '#f2f2f2',
-              border: '1px solid #ccc',
+              border: '1px solid #f2f2f2',
+              borderRadius: '5px',
               width: 600,
               height: 600,
             }}
           >
-            Map
+            <MapView />
           </Box>
         </Grid>
       </Grid>

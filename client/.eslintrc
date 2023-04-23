@@ -28,9 +28,11 @@
       "linebreak-style": 0,
       "object-curly-spacing": 0,
       "no-trailing-spaces": 0,
+      "no-undef":0,
       "react/react-in-jsx-scope": 0,
       "no-restricted-imports": "off",
-      "@typescript-eslint/no-restricted-imports": [0]
+      "@typescript-eslint/no-restricted-imports": [0],
+      "@typescript-eslint/restrict-template-expressions": [0]
     },
     "settings": {
       "react": {
