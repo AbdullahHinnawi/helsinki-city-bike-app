@@ -24,7 +24,7 @@ const StaionStatsPage = () => {
   const { selectedStation } = state
 
   useEffect(() => {
-    dispatch(getStationStats(Number(id), undefined, undefined))
+    dispatch(getStationStats(Number(id), '2021-05-01', '2021-06-30'))
   }, [dispatch, id])
 
   return (
