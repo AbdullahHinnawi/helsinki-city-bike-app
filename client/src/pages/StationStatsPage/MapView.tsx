@@ -9,12 +9,16 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { Box, CircularProgress, Typography } from '@mui/material'
 
+interface MapViewProps {
+  station: any
+}
+
 /**
  * @component
  * @desc Renders Google map
  */
 
-const MapView = () => {
+const MapView = ({ station }: MapViewProps) => {
   const { currentStation, currentStationLoading } = useSelector(
     (state: RootState) => state.station
   )
@@ -36,7 +40,7 @@ const MapView = () => {
       )}
       {isLoaded && (
         <>
-          {(!currentStation || currentStationLoading) && (
+          {!station && (
             <GoogleMap
               mapContainerStyle={{
                 width: '600px',
@@ -48,40 +52,36 @@ const MapView = () => {
             ></GoogleMap>
           )}
 
-          {!currentStationLoading && currentStation && (
+          {station && (
             <GoogleMap
               mapContainerStyle={{ width: '600px', height: '600px' }}
               zoom={15}
               center={{
-                lat: currentStation.x,
-                lng: currentStation.y,
+                lat: station.x,
+                lng: station.y,
               }}
             >
               <Marker
                 onClick={() => setShowInfo(true)}
                 position={{
-                  lat: currentStation.x,
-                  lng: currentStation.y,
+                  lat: station.x,
+                  lng: station.y,
                 }}
               />
 
               {showInfo && (
                 <InfoWindow
                   position={{
-                    lat: currentStation.x,
-                    lng: currentStation.y,
+                    lat: station.x,
+                    lng: station.y,
                   }}
                   onCloseClick={() => setShowInfo(false)}
                 >
                   <>
-                    <Typography variant="body1">
-                      {currentStation.nimi}
-                    </Typography>
+                    <Typography variant="body1">{station.nimi}</Typography>
                     <Typography variant="caption">
-                      {currentStation.osoite}
-                      {currentStation.kaupunki
-                        ? `, ${currentStation.kaupunki}`
-                        : ''}
+                      {station.osoite}
+                      {station.kaupunki ? `, ${station.kaupunki}` : ''}
                     </Typography>
                   </>
                 </InfoWindow>

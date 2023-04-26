@@ -27,8 +27,8 @@ const createStation = async (newStation: any) => {
  * @desc Get station stats
  * @returns
  */
-const getStationStats = async (stationId: number) => {
-  const res = await axios.get(`${baseUrl}/api/stations/${stationId}`)
+const getStationStats = async (stationId: number, startDate: string | undefined, endDate: string | undefined) => {
+  const res = await axios.get(`${baseUrl}/api/stations/${stationId}/${startDate}/${endDate}`)
   return res.data
 }
 

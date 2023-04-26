@@ -46,10 +46,10 @@ export const setStationSearch = (stationSearch: StationSearch) => (dispatch: Dis
  * @desc Gets station statistics
  * @param stationId
  */
-export const getStationStats = (stationId: number) => async (dispatch: Dispatch<any>) => {
+export const getStationStats = (stationId: number, startDate: string | undefined, endDate: string | undefined) => async (dispatch: Dispatch<any>) => {
   try {
     dispatch({ type: SET_CURRENT_STATION_LOADING, data: true })
-    const stationStats = await stationService.getStationStats(stationId)
+    const stationStats = await stationService.getStationStats(stationId, startDate, endDate)
     dispatch({ type: GET_STATION_STATS, data: stationStats })
     dispatch({ type: SET_CURRENT_STATION_LOADING, data: false })
   } catch (error) {

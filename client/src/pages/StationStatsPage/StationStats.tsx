@@ -1,7 +1,7 @@
 import React, { Dispatch, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getStationStats } from '../../actions/stationActions'
-import { CircularProgress, Grid, Typography } from '@mui/material'
+import { CircularProgress, Grid, Typography, Divider } from '@mui/material'
 import { RootState } from '../../store'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -31,14 +31,6 @@ const StationStats = () => {
 
       {!currentStationLoading && currentStation && (
         <>
-          <Grid item xs={12} sx={{ mb: 2, mt: 2 }}>
-            <Typography variant="h3">{currentStation.nimi}</Typography>
-            <Typography variant="body1">
-              {currentStation.osoite}
-              {currentStation.kaupunki ? `, ${currentStation.kaupunki}` : ''}
-            </Typography>
-          </Grid>
-
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h5">Departures</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
@@ -67,6 +59,10 @@ const StationStats = () => {
             </Typography>
           </Grid>
 
+          <Grid item xs={12} sx={{ mt: 3, mb: 3 }}>
+            <Divider />
+          </Grid>
+
           <Grid item xs={12} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h5">
               Popular Return Stations for Departures
@@ -76,6 +72,10 @@ const StationStats = () => {
                 currentStation.mostPopularReturnStationsForDepartureStations
               }
             />
+          </Grid>
+
+          <Grid item xs={12} sx={{ mt: 3, mb: 3 }}>
+            <Divider />
           </Grid>
 
           <Grid item xs={12} sx={{ mb: 2, mt: 2 }}>

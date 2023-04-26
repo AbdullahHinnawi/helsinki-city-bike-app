@@ -189,7 +189,8 @@ const StationsTable = ({ stations, stationsLoading }: StationsTableProps) => {
   }
 
   const handleStationClick = (stationId: number) => {
-    navigate(`/stations/${stationId}`)
+    const selectedStation = stations.find((s) => s.stationId === stationId)
+    navigate(`/stations/${stationId}`, { state: { selectedStation } })
   }
 
   const handleChangeRowsPerPage = (
