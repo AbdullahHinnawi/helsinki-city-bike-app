@@ -2,16 +2,24 @@ import {
   Box,
   CircularProgress,
   Container,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
+  Radio,
+  RadioGroup,
   Typography,
 } from '@mui/material'
-import React, { Dispatch, useEffect } from 'react'
+import React, { ChangeEvent, Dispatch, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchJourneys, setJourneySearch } from '../../actions/journeyActions'
 import ControlledPagination from '../../components/Pagination'
 import { RootState } from '../../store'
 import { JourneySearch } from '../../types/journeyTypes'
 import JourneysTable from './JourneysTable'
+import { initialJourneySearch } from '../../reducers/journeyReducer'
+import BasicFilter from '../../components/BasicFilter'
+import AdvancedFilters from './AdvancedFilters'
 
 /**
  * @component
@@ -27,11 +35,25 @@ const JourneysPage = () => {
     search.options.page
   )
 
+  const [filters, setFilters] = useState<string>('basic')
+  const [filter, setFilter] = useState<string>('')
+
   console.log('journeysResponse', journeysResponse)
 
   useEffect(() => {
     dispatch(fetchJourneys(search))
   }, [dispatch, search])
+
+  const handleFiltersSelection = (e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value
+    setFilter('')
+    setFilters(value)
+    dispatch(fetchJourneys(initialJourneySearch))
+  }
+
+  const handleFilterChange = (e: any) => {
+    setFilter(e.target.value)
+  }
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
@@ -45,8 +67,43 @@ const JourneysPage = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+        <Grid item xs={12} sx={{ textAlign: 'left' }}>
           <Typography variant="h4">Journeys</Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 3, mb:2 }}>
+          <FormControl>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Filters
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={filters}
+              onChange={handleFiltersSelection}
+            >
+              <FormControlLabel
+                value={'basic'}
+                control={<Radio />}
+                label="Basic"
+              />
+              <FormControlLabel
+                value={'advanced'}
+                control={<Radio />}
+                label="Advanced"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          {filters === 'advanced' && <AdvancedFilters/>}
+          {filters === 'basic' && (
+            <BasicFilter
+              filter={filter}
+              handleFilterChange={handleFilterChange}
+              placeholder={'Filter by departure/return station name...'}
+            />
+          )}
         </Grid>
         {!journeysResponse && (
           <Grid item xs={12} sx={{ mt: 3, mb: 3, textAlign: 'center' }}>
@@ -60,9 +117,20 @@ const JourneysPage = () => {
               page={currentPage}
               handleChange={handleChange}
             />
+            <Typography sx={{ mb: 2 }}>
+              Total of <b>{journeysResponse?.totalDocs}</b> journeys
+            </Typography>
             {journeysResponse?.docs?.length > 0 && (
               <JourneysTable
-                journeys={journeysResponse?.docs}
+                journeys={
+                  filter
+                    ? journeysResponse?.docs.filter((journey: any) => {
+                      if(journey.departureStationName?.toLowerCase().includes(filter?.toLowerCase()) || journey?.returnStationName?.toLowerCase().includes(filter?.toLowerCase())){
+                        return journey
+                      }
+                    })
+                    : journeysResponse?.docs
+                }
                 journeysLoading={journeysLoading}
               />
             )}

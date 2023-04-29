@@ -1,6 +1,6 @@
 import { JourneyAction, FETCH_JOURNEYS, CREATE_JOURNEY, JourneyState, SET_JOURNEY_SEARCH, JourneySearch, SET_JOURNEYS_LOADING } from './../types/journeyTypes'
 
-const initialJourneySearch: JourneySearch = {
+export const initialJourneySearch: JourneySearch = {
   query: {},
   options: {
     page: 1,

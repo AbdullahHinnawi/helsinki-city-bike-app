@@ -8,29 +8,44 @@ export const isStartEndDateRangeValid = (startDate: string, endDate: string) => 
   return false
 }
 
-export const getCapacity = (capacityOperator: string, capacityValue: number) => {
+export const getStatement = (operator: string, value: number) => {
 
-  let capacity = {}
+  let statement = {}
 
-  switch (capacityOperator) {
+  switch (operator) {
+    // greater than
     case "gt":
-      capacity = { $gt: capacityValue }
+      statement = { $gt: value }
       break;
+    // greater than or equal
     case "gte":
-      capacity = { $gte: capacityValue }
+      statement = { $gte: value }
       break;
+    // equal
     case "eq":
-      capacity = { $eq: capacityValue }
+      statement = { $eq: value }
       break;
+    // less than
     case "lt":
-      capacity = { $lt: capacityValue }
+      statement = { $lt: value }
       break;
+    // less than or equal
     case "lte":
-      capacity = { $lte: capacityValue }
+      statement = { $lte: value }
       break;
     default:
-      capacity = { $gt: 0 }
+      statement = { $gt: 0 }
       break;
   }
-  return capacity;
+  return statement;
+}
+
+
+export const convertMinutesToSeconds = (minutes: number) => {
+  return minutes * 60
+}
+
+
+export const convertKilometersToMeters = (kilometers: number) => {
+  return kilometers * 1000
 }

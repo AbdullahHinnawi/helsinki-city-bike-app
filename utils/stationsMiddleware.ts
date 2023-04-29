@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import Station from "../models/Station"
-import { getCapacity, isStartEndDateRangeValid } from "./helpers"
+import { getStatement, isStartEndDateRangeValid } from "./helpers"
 import logger from "./logger"
 
 
@@ -31,7 +31,7 @@ export const getStations = async (req: Request, res: Response, next: NextFunctio
     if(Boolean(!nameOrAddress  && capacityOperator)){
       dbQuery = {
         $and: [
-          { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+          { kapasiteet: getStatement(capacityOperator, capacityValue) }
         ]
       }
     }
@@ -46,7 +46,7 @@ export const getStations = async (req: Request, res: Response, next: NextFunctio
             { osoite: { $in: new RegExp(nameOrAddress, 'i') } },
           ],
           $and: [
-            { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+            { kapasiteet: getStatement(capacityOperator, capacityValue) }
           ]
         }
       }
@@ -56,7 +56,7 @@ export const getStations = async (req: Request, res: Response, next: NextFunctio
           $or: [
             { nimi: { $in: new RegExp(nameOrAddress, 'i') } },
             { osoite: { $in: new RegExp(nameOrAddress, 'i') } },
-            { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+            { kapasiteet: getStatement(capacityOperator, capacityValue) }
           ]
         }
       }
