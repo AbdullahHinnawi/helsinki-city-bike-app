@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Dispatch, useState } from 'react'
@@ -15,6 +15,8 @@ import { RootState } from '../../store'
 import { StationSearch } from '../../types/stationTypes'
 import { setStationSearch } from '../../actions/stationActions'
 import { initialStationSearch } from '../../reducers/stationReducer'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
 
 const AdvancedFilters = () => {
   const { stationsResponse, stationsLoading, search } = useSelector(
@@ -81,6 +83,17 @@ const AdvancedFilters = () => {
       columnSpacing={{ xs: 1, sm: 2, md: 3 }}
       sx={{ mb: 2 }}
     >
+      <Grid item xs={12}>
+        <Alert severity="info">
+          <AlertTitle>Use Cases</AlertTitle>
+          <Typography sx={{ fontSize: '14px' }}>
+            - Station name/address <b>AND/OR</b> station capacity
+          </Typography>
+          <Typography sx={{ fontSize: '14px' }}>
+            - Station capacity (leave station name/address empty)
+          </Typography>
+        </Alert>
+      </Grid>
       <Grid item xs={4}>
         <TextField
           fullWidth
@@ -141,7 +154,7 @@ const AdvancedFilters = () => {
           value={capacityValue}
           onChange={handleCapacityValueChange}
           type="number"
-          label="Value"
+          label="Bikes"
           variant="outlined"
         />
       </Grid>

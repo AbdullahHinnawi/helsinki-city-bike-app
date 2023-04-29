@@ -48,14 +48,14 @@ const StationStats = () => {
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h5">Dep. Average Distance</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
-              {currentStation.departureJourneysDistanceAverage}
+              {Number(currentStation.departureJourneysDistanceAverage).toFixed(2)}
             </Typography>
           </Grid>
 
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h5">Arr. Average Distance</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
-              {currentStation.returnJourneysDistanceAverage}
+              {Number(currentStation.returnJourneysDistanceAverage).toFixed(2)}
             </Typography>
           </Grid>
 
