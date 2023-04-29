@@ -2,17 +2,24 @@ import {
   Box,
   CircularProgress,
   Container,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
+  Radio,
+  RadioGroup,
   Typography,
 } from '@mui/material'
-import React, { Dispatch, useEffect } from 'react'
+import React, { ChangeEvent, Dispatch, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ControlledPagination from '../../components/Pagination'
 import { RootState } from '../../store'
-
 import StationsTable from './StationsTable'
 import { fetchStations, setStationSearch } from '../../actions/stationActions'
 import { StationSearch } from '../../types/stationTypes'
+import BasicFilter from '../../components/BasicFilter'
+import AdvancedFilters from './AdvancedFilters'
+import { initialStationSearch } from '../../reducers/stationReducer'
 
 /**
  * @component
@@ -29,6 +36,15 @@ const StationsPage = () => {
   )
 
   console.log('stationsResponse', stationsResponse)
+  const [filters, setFilters] = useState<string>('basic')
+  const [filter, setFilter] = useState<string>('')
+
+  const handleFiltersSelection = (e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value
+    setFilter('')
+    setFilters(value)
+    dispatch(fetchStations(initialStationSearch))
+  }
 
   useEffect(() => {
     dispatch(fetchStations(search))
@@ -42,13 +58,53 @@ const StationsPage = () => {
       options: { ...search.options, page: value },
     }
     dispatch(setStationSearch(newSearch))
+    dispatch(fetchStations(newSearch))
+  }
+
+  const handleFilterChange = (e: any) => {
+    setFilter(e.target.value)
   }
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+        <Grid item xs={12} sx={{ textAlign: 'left' }}>
           <Typography variant="h4">Stations</Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ mt: 3, mb:2 }}>
+          <FormControl>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Filters
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+              value={filters}
+              onChange={handleFiltersSelection}
+            >
+              <FormControlLabel
+                value={'basic'}
+                control={<Radio />}
+                label="Basic"
+              />
+              <FormControlLabel
+                value={'advanced'}
+                control={<Radio />}
+                label="Advanced"
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          {filters === 'advanced' && <AdvancedFilters />}
+          {filters === 'basic' && (
+            <BasicFilter
+              filter={filter}
+              handleFilterChange={handleFilterChange}
+              placeholder={'Filter by name or address...'}
+            />
+          )}
         </Grid>
         {!stationsResponse && (
           <Grid item xs={12} sx={{ mt: 3, mb: 3, textAlign: 'center' }}>
@@ -62,9 +118,20 @@ const StationsPage = () => {
               page={currentPage}
               handleChange={handleChange}
             />
+            <Typography sx={{ mb: 2 }}>
+              Total of <b>{stationsResponse?.totalDocs}</b> stations
+            </Typography>
             {stationsResponse?.docs?.length > 0 && (
               <StationsTable
-                stations={stationsResponse?.docs}
+                stations={
+                  filter
+                    ? stationsResponse?.docs.filter((station: any) => {
+                      if(station.nimi?.toLowerCase().includes(filter?.toLowerCase()) || station?.osoite?.toLowerCase().includes(filter?.toLowerCase())){
+                        return station
+                      }
+                    })
+                    : stationsResponse?.docs
+                }
                 stationsLoading={stationsLoading}
               />
             )}

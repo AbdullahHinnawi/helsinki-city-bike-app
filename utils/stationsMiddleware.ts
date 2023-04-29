@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import Station from "../models/Station"
-import { isStartEndDateRangeValid } from "./helpers"
-
+import { getCapacity, isStartEndDateRangeValid } from "./helpers"
+import logger from "./logger"
 
 
 /**
@@ -13,9 +13,7 @@ import { isStartEndDateRangeValid } from "./helpers"
  * @info Pagination and filtering are implemented through request body
  * Example:
  * req.body = {
- *  "query": {
- *    "Kaupunki": "Espoo"
- *  },
+ *  "query": {},
  *  "options": {
  *    "limit":50,
  *    "page": 1
@@ -25,7 +23,46 @@ import { isStartEndDateRangeValid } from "./helpers"
 export const getStations = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { query, options } = req.body
-    const result = await Station.paginate(query, options)
+    const {nameOrAddress, logicalOperator, capacityOperator, capacityValue} = query
+
+    let dbQuery = {}
+
+    // Filter according to capacity only
+    if(Boolean(!nameOrAddress  && capacityOperator)){
+      dbQuery = {
+        $and: [
+          { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+        ]
+      }
+    }
+
+    // Filter according to name/address AND/OR capacity
+    if (Boolean(nameOrAddress && logicalOperator && capacityOperator)) {
+
+      if (logicalOperator.toString() === 'and') {
+        dbQuery = {
+          $or: [
+            { nimi: { $in: new RegExp(nameOrAddress, 'i') } },
+            { osoite: { $in: new RegExp(nameOrAddress, 'i') } },
+          ],
+          $and: [
+            { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+          ]
+        }
+      }
+
+      if (logicalOperator.toString() === 'or') {
+        dbQuery = {
+          $or: [
+            { nimi: { $in: new RegExp(nameOrAddress, 'i') } },
+            { osoite: { $in: new RegExp(nameOrAddress, 'i') } },
+            { kapasiteet: getCapacity(capacityOperator, capacityValue) }
+          ]
+        }
+      }
+    }
+    logger.info("Stations dbQuery", JSON.stringify(dbQuery, null, 2))
+    const result = await Station.paginate(dbQuery, options)
     return res.status(200).json(result)
   } catch (exception: unknown) {
     return next(exception)

@@ -1,6 +1,6 @@
 import { StationState, StationAction, FETCH_STATIONS, CREATE_STATION, StationSearch, SET_STATION_SEARCH, GET_STATION_STATS, SET_CURRENT_STATION_LOADING, SET_STATIONS_LOADING } from '../types/stationTypes'
 
-const initialStationSearch: StationSearch = {
+export const initialStationSearch: StationSearch = {
   query: {},
   options: {
     page: 1,
