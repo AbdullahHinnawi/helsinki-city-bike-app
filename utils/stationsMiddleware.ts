@@ -23,9 +23,19 @@ import logger from "./logger"
 export const getStations = async (req: Request, res: Response, _next: NextFunction) => {
   try {
     const { query, options } = req.body
-    const {nameOrAddress, logicalOperator, capacityOperator, capacityValue} = query
+    const {basicFilter, nameOrAddress, logicalOperator, capacityOperator, capacityValue} = query
 
     let dbQuery = {}
+
+    // Search/filter according to the name/address
+    if(Boolean(basicFilter  && nameOrAddress)){
+      dbQuery = {
+        $or: [
+          { nimi: { $in: new RegExp(nameOrAddress, 'i') } },
+          { osoite: { $in: new RegExp(nameOrAddress, 'i') } },
+        ]
+      }
+    }
 
     // Filter according to capacity only
     if(Boolean(!nameOrAddress  && capacityOperator)){

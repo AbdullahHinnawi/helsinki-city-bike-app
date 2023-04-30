@@ -39,11 +39,42 @@ const JourneysPage = () => {
   const [filters, setFilters] = useState<string>('basic')
   const [filter, setFilter] = useState<string>('')
 
-  console.log('journeysResponse', journeysResponse)
-
   useEffect(() => {
     dispatch(fetchJourneys(search))
   }, [dispatch, search])
+
+  const handleSearchIconClick = () => {
+    const newSearch: JourneySearch = {
+      query: {
+        basicFilter: true,
+        stationName: filter
+      },
+      options: {
+        page: 1,
+        limit: 50
+      }
+    }
+    dispatch(setJourneySearch(newSearch))
+  }
+
+  const handleKeyPress = (e: any) => {
+    // Check if the pressed key is "Enter"
+    if (e.keyCode === 13) {
+      // Prevent page reload on Enter click
+      e.preventDefault()
+      const newSearch: JourneySearch = {
+        query: {
+          basicFilter: true,
+          stationName: filter
+        },
+        options: {
+          page: 1,
+          limit: 50
+        }
+      }
+      dispatch(setJourneySearch(newSearch))
+    }
+  }
 
   const handleFiltersSelection = (e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value
@@ -104,10 +135,12 @@ const JourneysPage = () => {
               filter={filter}
               handleFilterChange={handleFilterChange}
               placeholder={'Filter by departure/return station name...'}
+              handleKeyPress={handleKeyPress}
+              handleSearchIconClick={handleSearchIconClick}
             />
           )}
         </Grid>
-        {!journeysResponse && (
+        {!journeysResponse?.docs?.length && journeysLoading  && (
           <Grid item xs={12} sx={{ mt: 3, mb: 3, textAlign: 'center' }}>
             <CircularProgress style={{ width: '28px', height: '28px' }} />
           </Grid>
@@ -124,22 +157,7 @@ const JourneysPage = () => {
             </Typography>
             {journeysResponse?.docs?.length > 0 && (
               <JourneysTable
-                journeys={
-                  filter
-                    ? journeysResponse?.docs.filter((journey: any) => {
-                        if (
-                          journey.departureStationName
-                            ?.toLowerCase()
-                            .includes(filter?.toLowerCase()) ||
-                          journey?.returnStationName
-                            ?.toLowerCase()
-                            .includes(filter?.toLowerCase())
-                        ) {
-                          return journey
-                        }
-                      })
-                    : journeysResponse?.docs
-                }
+                journeys={ journeysResponse?.docs }
                 journeysLoading={journeysLoading}
               />
             )}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, IconButton, InputBase } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
-const BasicFilter = ({ placeholder, filter, handleFilterChange }) => {
+const BasicFilter = ({ placeholder, filter, handleFilterChange, handleKeyPress, handleSearchIconClick  }) => {
   return (
     <Box
       display="flex"
@@ -25,9 +25,10 @@ const BasicFilter = ({ placeholder, filter, handleFilterChange }) => {
           placeholder={placeholder}
           value={filter}
           onChange={handleFilterChange}
+          onKeyDown={handleKeyPress}
         />
       </Box>
-      <IconButton>
+      <IconButton onClick={handleSearchIconClick}>
         <SearchIcon />
       </IconButton>
     </Box>

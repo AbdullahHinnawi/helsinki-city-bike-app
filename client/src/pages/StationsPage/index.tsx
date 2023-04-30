@@ -52,6 +52,39 @@ const StationsPage = () => {
     console.log('called')
   }, [dispatch, search])
 
+  const handleSearchIconClick = () => {
+    const newSearch: StationSearch = {
+      query: {
+        basicFilter: true,
+        nameOrAddress: filter
+      },
+      options: {
+        page: 1,
+        limit: 50
+      }
+    }
+    dispatch(setStationSearch(newSearch))
+  }
+
+  const handleKeyPress = (e: any) => {
+    // Check if the pressed key is "Enter"
+    if (e.keyCode === 13) {
+      // Prevent page reload on Enter click
+      e.preventDefault()
+      const newSearch: StationSearch = {
+        query: {
+          basicFilter: true,
+          nameOrAddress: filter
+        },
+        options: {
+          page: 1,
+          limit: 50
+        }
+      }
+      dispatch(setStationSearch(newSearch))
+    }
+  }
+
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
     const newSearch: StationSearch = {
@@ -105,10 +138,12 @@ const StationsPage = () => {
               filter={filter}
               handleFilterChange={handleFilterChange}
               placeholder={'Filter by name or address...'}
+              handleKeyPress={handleKeyPress}
+              handleSearchIconClick={handleSearchIconClick}
             />
           )}
         </Grid>
-        {!stationsResponse && (
+        {!stationsResponse?.docs?.length && stationsLoading  && (
           <Grid item xs={12} sx={{ mt: 3, mb: 3, textAlign: 'center' }}>
             <CircularProgress style={{ width: '28px', height: '28px' }} />
           </Grid>
@@ -125,15 +160,7 @@ const StationsPage = () => {
             </Typography>
             {stationsResponse?.docs?.length > 0 && (
               <StationsTable
-                stations={
-                  filter
-                    ? stationsResponse?.docs.filter((station: any) => {
-                      if(station.nimi?.toLowerCase().includes(filter?.toLowerCase()) || station?.osoite?.toLowerCase().includes(filter?.toLowerCase())){
-                        return station
-                      }
-                    })
-                    : stationsResponse?.docs
-                }
+                stations={stationsResponse?.docs}
                 stationsLoading={stationsLoading}
               />
             )}

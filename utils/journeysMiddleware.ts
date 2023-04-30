@@ -27,11 +27,19 @@ export const getJourneys = async (req: Request, res: Response, next: NextFunctio
   try {
     const { query, options } = req.body
 
-    const { stationName, firstLogicalOperator, distanceOperator, distanceValue, secondLogicalOperator, durationOperator, durationValue } = query
+    const { basicFilter, stationName, firstLogicalOperator, distanceOperator, distanceValue, secondLogicalOperator, durationOperator, durationValue } = query
 
     let dbQuery = {}
 
-    console.log(firstLogicalOperator)
+    // Search/filter according to departure/return station name
+    if(Boolean(basicFilter  && stationName)){
+      dbQuery = {
+        $or: [
+          { departureStationName: { $in: new RegExp(stationName, 'i') } },
+          { returnStationName: { $in: new RegExp(stationName, 'i') } },
+        ]
+      }
+    }
 
     // Filter according to distance and/or duration
     if (Boolean(!stationName && secondLogicalOperator)) {
