@@ -49,10 +49,7 @@ const JourneysPage = () => {
         basicFilter: true,
         stationName: filter
       },
-      options: {
-        page: 1,
-        limit: 50
-      }
+      options: initialJourneySearch.options
     }
     dispatch(setJourneySearch(newSearch))
   }
@@ -67,10 +64,7 @@ const JourneysPage = () => {
           basicFilter: true,
           stationName: filter
         },
-        options: {
-          page: 1,
-          limit: 50
-        }
+        options: initialJourneySearch.options
       }
       dispatch(setJourneySearch(newSearch))
     }

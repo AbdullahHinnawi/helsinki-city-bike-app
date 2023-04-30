@@ -58,10 +58,7 @@ const StationsPage = () => {
         basicFilter: true,
         nameOrAddress: filter
       },
-      options: {
-        page: 1,
-        limit: 50
-      }
+      options: initialStationSearch.options
     }
     dispatch(setStationSearch(newSearch))
   }
@@ -76,10 +73,7 @@ const StationsPage = () => {
           basicFilter: true,
           nameOrAddress: filter
         },
-        options: {
-          page: 1,
-          limit: 50
-        }
+        options: initialStationSearch.options
       }
       dispatch(setStationSearch(newSearch))
     }
