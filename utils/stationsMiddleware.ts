@@ -20,7 +20,7 @@ import logger from "./logger"
  *  }
  * }
  */
-export const getStations = async (req: Request, res: Response, next: NextFunction) => {
+export const getStations = async (req: Request, res: Response, _next: NextFunction) => {
   try {
     const { query, options } = req.body
     const {nameOrAddress, logicalOperator, capacityOperator, capacityValue} = query
@@ -64,8 +64,9 @@ export const getStations = async (req: Request, res: Response, next: NextFunctio
     logger.info("Stations dbQuery", JSON.stringify(dbQuery, null, 2))
     const result = await Station.paginate(dbQuery, options)
     return res.status(200).json(result)
-  } catch (exception: unknown) {
-    return next(exception)
+  } catch (error: any) {
+    logger.error(error)
+    return res.status(400).json({error: error.message})
   }
 }
 
@@ -77,20 +78,23 @@ export const getStations = async (req: Request, res: Response, next: NextFunctio
  * @returns created station object
  */
 
-export const createStation = async (req: Request, res: Response, next: NextFunction) => {
+export const createStation = async (req: Request, res: Response, _next: NextFunction) => {
 
   try {
     const { body } = req
+
+    const newId = Math.round(Date.now() + Math.random())
     const newStation = new Station({
-      fid: body.fid,
+      fid: newId,
+      stationId: newId,
       nimi: body.nimi,
-      namn: body.name,
-      name: body.name,
+      namn: '',
+      name: '',
       osoite: body.osoite,
-      address: body.osoite,
+      address: '',
       kaupunki: body.kaupunki,
-      stad: body.stad,
-      operaattor: body.operaattor,
+      stad: '',
+      Operaattor: '',
       kapasiteet: body.kapasiteet,
       x: body.x,
       y: body.y
@@ -98,8 +102,9 @@ export const createStation = async (req: Request, res: Response, next: NextFunct
     const createdStation = await newStation.save()
     return res.status(201).json(createdStation)
 
-  } catch (exception: unknown) {
-    return next(exception)
+  } catch (error: any) {
+    logger.error(error)
+    return res.status(400).json({error: error.message})
   }
 
 }
@@ -113,7 +118,7 @@ export const createStation = async (req: Request, res: Response, next: NextFunct
  * @returns station object
  */
 
-export const getStationStats = async (req: Request, res: Response, next: NextFunction) => {
+export const getStationStats = async (req: Request, res: Response, _next: NextFunction) => {
 
   try {
     const { stationId, startDate, endDate } = req.params
@@ -229,8 +234,9 @@ export const getStationStats = async (req: Request, res: Response, next: NextFun
     let result = await Station.aggregate(pipeline)
     return res.status(200).json(result[0])
 
-  } catch (exception: unknown) {
-    return next(exception)
+  } catch (error: any) {
+    logger.error(error)
+    return res.status(400).json({error: error.message})
   }
 
 }

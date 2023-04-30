@@ -20,6 +20,7 @@ import JourneysTable from './JourneysTable'
 import { initialJourneySearch } from '../../reducers/journeyReducer'
 import BasicFilter from '../../components/BasicFilter'
 import AdvancedFilters from './AdvancedFilters'
+import AddJourneyDialog from './AddJourneyDialog'
 
 /**
  * @component
@@ -67,10 +68,11 @@ const JourneysPage = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: 'left' }}>
-          <Typography variant="h4">Journeys</Typography>
+        <Grid item xs={12}>
+              <Typography variant="h4" sx={{ textAlign: 'left', mb:2 }}>Journeys</Typography>
+              <AddJourneyDialog />
         </Grid>
-        <Grid item xs={12} sx={{ mt: 3, mb:2 }}>
+        <Grid item xs={12} sx={{ mt: 3, mb: 2 }}>
           <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">
               Filters
@@ -96,7 +98,7 @@ const JourneysPage = () => {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          {filters === 'advanced' && <AdvancedFilters/>}
+          {filters === 'advanced' && <AdvancedFilters />}
           {filters === 'basic' && (
             <BasicFilter
               filter={filter}
@@ -125,10 +127,17 @@ const JourneysPage = () => {
                 journeys={
                   filter
                     ? journeysResponse?.docs.filter((journey: any) => {
-                      if(journey.departureStationName?.toLowerCase().includes(filter?.toLowerCase()) || journey?.returnStationName?.toLowerCase().includes(filter?.toLowerCase())){
-                        return journey
-                      }
-                    })
+                        if (
+                          journey.departureStationName
+                            ?.toLowerCase()
+                            .includes(filter?.toLowerCase()) ||
+                          journey?.returnStationName
+                            ?.toLowerCase()
+                            .includes(filter?.toLowerCase())
+                        ) {
+                          return journey
+                        }
+                      })
                     : journeysResponse?.docs
                 }
                 journeysLoading={journeysLoading}

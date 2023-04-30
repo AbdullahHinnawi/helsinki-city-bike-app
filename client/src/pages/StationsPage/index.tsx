@@ -20,6 +20,7 @@ import { StationSearch } from '../../types/stationTypes'
 import BasicFilter from '../../components/BasicFilter'
 import AdvancedFilters from './AdvancedFilters'
 import { initialStationSearch } from '../../reducers/stationReducer'
+import AddStationDialog from './AddStationDialog'
 
 /**
  * @component
@@ -68,8 +69,9 @@ const StationsPage = () => {
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
       <Grid container>
-        <Grid item xs={12} sx={{ textAlign: 'left' }}>
-          <Typography variant="h4">Stations</Typography>
+        <Grid item xs={12}>
+              <Typography variant="h4" sx={{ textAlign: 'left', mb:2 }}>Stations</Typography>
+              <AddStationDialog />
         </Grid>
         <Grid item xs={12} sx={{ mt: 3, mb:2 }}>
           <FormControl>

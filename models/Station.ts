@@ -10,9 +10,12 @@ const stationSchema: Schema = new mongoose.Schema({
   },
   stationId: {
     type: Number,
+    required: true,
+    unique: true,
   },
   nimi: {
     type: String,
+    required: true
   },
   namn: {
     type: String,
@@ -22,12 +25,15 @@ const stationSchema: Schema = new mongoose.Schema({
   },
   osoite: {
     type: String,
+    required: true
   },
   address: {
     type: String
   },
   kaupunki: {
-    type: String
+    type: String,
+    enum: ["espoo", "helsinki"],
+    required: true
   },
   stad: {
     type: String,
@@ -36,13 +42,16 @@ const stationSchema: Schema = new mongoose.Schema({
     type: String
   },
   kapasiteet: {
-    type: Number
+    type: Number,
+    required: true
   },
   x: {
-    type: Number
+    type: Number,
+    required: true
   },
   y: {
-    type: Number
+    type: Number,
+    required: true
   }
 })
 
