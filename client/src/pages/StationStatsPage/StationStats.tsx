@@ -31,6 +31,13 @@ const StationStats = () => {
 
       {!currentStationLoading && currentStation && (
         <>
+          <Grid item xs={12} sx={{ mb: 2, mt: 2 }}>
+            <Typography variant="h5">Capacity</Typography>
+            <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
+              {currentStation.kapasiteet}
+            </Typography>
+          </Grid>
+
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
             <Typography variant="h5">Departures</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
@@ -46,14 +53,14 @@ const StationStats = () => {
           </Grid>
 
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
-            <Typography variant="h5">Dep. Average Distance</Typography>
+            <Typography variant="h5">Departures Avg. Distance</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
               {Number(currentStation.departureJourneysDistanceAverage).toFixed(2)}
             </Typography>
           </Grid>
 
           <Grid item xs={6} sx={{ mb: 2, mt: 2 }}>
-            <Typography variant="h5">Arr. Average Distance</Typography>
+            <Typography variant="h5">Arrivals Avg. Distance</Typography>
             <Typography variant="body1" sx={{ color: 'gray', mt: 1 }}>
               {Number(currentStation.returnJourneysDistanceAverage).toFixed(2)}
             </Typography>
