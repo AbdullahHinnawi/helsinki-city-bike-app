@@ -1,17 +1,11 @@
 // ***** Journey types *****
 export const FETCH_JOURNEYS = 'FETCH_JOURNEYS'
-export const CREATE_JOURNEY = 'CREATE_JOURNEY'
 export const SET_JOURNEY_SEARCH = 'SET_JOURNEY_SEARCH'
 export const SET_JOURNEYS_LOADING = 'SET_JOURNEYS_LOADING'
 
 
 type FetchJourneysAction = {
   type: typeof FETCH_JOURNEYS
-  data: any
-};
-
-type CreateJourneyAction = {
-  type: typeof CREATE_JOURNEY
   data: any
 };
 
@@ -26,7 +20,7 @@ type SetJourneysLoadingAction = {
 };
 
 
-export type JourneyAction = FetchJourneysAction | CreateJourneyAction | SetJourneySearchAction | SetJourneysLoadingAction;
+export type JourneyAction = FetchJourneysAction | SetJourneySearchAction | SetJourneysLoadingAction;
 
 
 export interface IJourneyDoc {
@@ -64,6 +58,6 @@ export type JourneySearch = {
 
 export type JourneyState = {
   journeysResponse: JourneysResponse,
-  search: JourneySearch,
+  journeySearch: JourneySearch,
   journeysLoading: boolean
 };

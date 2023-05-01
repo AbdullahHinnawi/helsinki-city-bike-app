@@ -23,7 +23,7 @@ const StartEndDate = () => {
   const {
     stationsResponse,
     stationsLoading,
-    search,
+    stationSearch,
     currentStation,
     currentStationLoading,
   } = useSelector((state: RootState) => state.station)

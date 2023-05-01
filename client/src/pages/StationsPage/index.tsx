@@ -27,14 +27,12 @@ import AddStationDialog from './AddStationDialog'
  * @desc Renders stations page
  */
 const StationsPage = () => {
-  const { stationsResponse, stationsLoading, search } = useSelector(
+  const { stationsResponse, stationsLoading, stationSearch } = useSelector(
     (state: RootState) => state.station
   )
 
   const dispatch: Dispatch<any> = useDispatch()
-  const [currentPage, setCurrentPage] = React.useState<number>(
-    search.options.page
-  )
+  const [currentPage, setCurrentPage] = React.useState<number>(stationSearch.options.page)
 
   console.log('stationsResponse', stationsResponse)
   const [filters, setFilters] = useState<string>('basic')
@@ -48,9 +46,8 @@ const StationsPage = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchStations(search))
-    console.log('called')
-  }, [dispatch, search])
+    dispatch(fetchStations(stationSearch))
+  }, [dispatch, stationSearch])
 
   const handleSearchIconClick = () => {
     const newSearch: StationSearch = {
@@ -82,8 +79,8 @@ const StationsPage = () => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
     const newSearch: StationSearch = {
-      ...search,
-      options: { ...search.options, page: value },
+      ...stationSearch,
+      options: { ...stationSearch.options, page: value },
     }
     dispatch(setStationSearch(newSearch))
     dispatch(fetchStations(newSearch))

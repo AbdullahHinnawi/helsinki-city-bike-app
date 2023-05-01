@@ -27,21 +27,21 @@ import AddJourneyDialog from './AddJourneyDialog'
  * @desc Renders journeys page
  */
 const JourneysPage = () => {
-  const { journeysResponse, search, journeysLoading } = useSelector(
+  const { journeysResponse, journeySearch, journeysLoading } = useSelector(
     (state: RootState) => state.journey
   )
 
   const dispatch: Dispatch<any> = useDispatch()
   const [currentPage, setCurrentPage] = React.useState<number>(
-    search.options.page
+    journeySearch.options.page
   )
 
   const [filters, setFilters] = useState<string>('basic')
   const [filter, setFilter] = useState<string>('')
 
   useEffect(() => {
-    dispatch(fetchJourneys(search))
-  }, [dispatch, search])
+    dispatch(fetchJourneys(journeySearch))
+  }, [dispatch, journeySearch])
 
   const handleSearchIconClick = () => {
     const newSearch: JourneySearch = {
@@ -84,8 +84,8 @@ const JourneysPage = () => {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value)
     const newSearch: JourneySearch = {
-      ...search,
-      options: { ...search.options, page: value },
+      ...journeySearch,
+      options: { ...journeySearch.options, page: value },
     }
     dispatch(setJourneySearch(newSearch))
   }

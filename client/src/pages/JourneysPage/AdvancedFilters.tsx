@@ -19,7 +19,7 @@ import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 
 const AdvancedFilters = () => {
-  const { journeysResponse, search, journeysLoading } = useSelector(
+  const { journeysResponse, journeySearch, journeysLoading } = useSelector(
     (state: RootState) => state.journey
   )
 
@@ -69,9 +69,9 @@ const AdvancedFilters = () => {
 
   const handleSearchClick = () => {
     const newSearch: JourneySearch = {
-      ...search,
+      ...journeySearch,
       query: {
-        ...search.query,
+        ...journeySearch.query,
         stationName: stationName,
         firstLogicalOperator: firstLogicalOperator,
         distanceOperator: distanceOperator,

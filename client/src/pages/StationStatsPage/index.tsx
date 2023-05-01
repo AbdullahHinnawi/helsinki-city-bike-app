@@ -14,7 +14,7 @@ import StartEndDate from './StartEndDate'
  * @desc Renders station stats page
  */
 const StaionStatsPage = () => {
-  const { stationsResponse, stationsLoading, search, currentStation } =
+  const { stationsResponse, stationsLoading, stationSearch, currentStation } =
     useSelector((state: RootState) => state.station)
 
   const dispatch: Dispatch<any> = useDispatch()

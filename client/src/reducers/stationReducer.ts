@@ -9,7 +9,7 @@ export const initialStationSearch: StationSearch = {
 }
 const initialState: StationState = {
   stationsResponse: undefined,
-  search: initialStationSearch,
+  stationSearch: initialStationSearch,
   currentStation: undefined,
   stationsLoading: false,
   currentStationLoading: false
@@ -36,7 +36,7 @@ const stationReducer = (state = initialState, action: StationAction) => {
   case SET_STATION_SEARCH:
     return {
       ...state,
-      search: action.data,
+      stationSearch: action.data,
     }
   case SET_STATIONS_LOADING:
     return {

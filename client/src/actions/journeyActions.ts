@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import journeyService from './../services/journeyService'
-import { CREATE_JOURNEY, FETCH_JOURNEYS, JourneySearch, SET_JOURNEYS_LOADING, SET_JOURNEY_SEARCH } from './../types/journeyTypes'
+import { FETCH_JOURNEYS, JourneySearch, SET_JOURNEYS_LOADING, SET_JOURNEY_SEARCH } from './../types/journeyTypes'
 
 /**
  * @function
@@ -13,20 +13,6 @@ export const fetchJourneys = (journeySearch: JourneySearch) => async (dispatch: 
     const result = await journeyService.getJourneys(journeySearch)
     dispatch({ type: FETCH_JOURNEYS, data: result })
     dispatch({ type: SET_JOURNEYS_LOADING, data: false })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-/**
- * @function
- * @desc Creates a new journey.
- * @param {Object} journey
- */
-export const createJourney = (journey: any) => async (dispatch: Dispatch<any>) => {
-  try {
-    const result = await journeyService.createJourney(journey)
-    dispatch({ type: CREATE_JOURNEY, data: result })
   } catch (error) {
     console.log(error)
   }

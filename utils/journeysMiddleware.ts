@@ -158,7 +158,8 @@ export const createJourney = async (req: Request, res: Response, _next: NextFunc
     const { body } = req
 
     if(new Date(body.return).getTime() <= new Date(body.departure).getTime()){
-      return res.status(400).json({error: "Retrun time can not be before or same as departure time"})
+      logger.error("createJourney error: Retrun time can not be before or same as departure time")
+      return res.status(400).json({messge: "Retrun time can not be before or same as departure time"})
     }
     const newJourney = new Journey({
       departure: body.departure,
@@ -176,7 +177,7 @@ export const createJourney = async (req: Request, res: Response, _next: NextFunc
 
   } catch (error: any) {
     logger.error(error)
-    return res.status(400).json({error: error.message})
+    return res.status(400).json({message: error.message})
   }
 
 }

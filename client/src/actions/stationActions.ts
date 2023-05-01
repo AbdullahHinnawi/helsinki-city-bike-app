@@ -1,4 +1,4 @@
-import { FETCH_STATIONS, CREATE_STATION, StationSearch, SET_STATION_SEARCH, GET_STATION_STATS, SET_CURRENT_STATION_LOADING, SET_STATIONS_LOADING } from './../types/stationTypes'
+import { FETCH_STATIONS, SET_STATION_SEARCH, GET_STATION_STATS, SET_CURRENT_STATION_LOADING, SET_STATIONS_LOADING, StationSearch } from './../types/stationTypes'
 import stationService from './../services/stationService'
 import { Dispatch } from 'redux'
 
@@ -18,19 +18,6 @@ export const fetchStations = (stationSearch: any) => async (dispatch: Dispatch<a
   }
 }
 
-/**
- * @function
- * @desc Creates a new station.
- * @param {Object} station
- */
-export const createStation = (station: any) => async (dispatch: Dispatch<any>) => {
-  try {
-    const result = await stationService.createStation(station)
-    dispatch({ type: CREATE_STATION, data: result })
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 /**
  * @function
@@ -52,7 +39,7 @@ export const getStationStats = (stationId: number, startDate: string | undefined
     const stationStats = await stationService.getStationStats(stationId, startDate, endDate)
     dispatch({ type: GET_STATION_STATS, data: stationStats })
     dispatch({ type: SET_CURRENT_STATION_LOADING, data: false })
-  } catch (error) {
+  } catch (error:any) {
     console.log(error)
   }
 }

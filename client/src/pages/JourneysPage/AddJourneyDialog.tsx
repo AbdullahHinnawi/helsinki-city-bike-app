@@ -18,7 +18,10 @@ import {
 import { RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchStations } from '../../actions/stationActions'
-import { createJourney } from '../../actions/journeyActions'
+import { AlertSeverity } from '../../types/AlertTypes'
+import { setAlert } from '../../actions/AlertActions'
+import journeyService from '../../services/journeyService'
+import { fetchJourneys } from '../../actions/journeyActions'
 
 /**
  * @component
@@ -27,9 +30,9 @@ import { createJourney } from '../../actions/journeyActions'
 const AddJourneyDialog: React.FC<any> = () => {
   const [open, setOpen] = React.useState(false)
 
-  const { stationsResponse, stationsLoading, search } = useSelector(
-    (state: RootState) => state.station
-  )
+  const { journeySearch } = useSelector((state: RootState) => state.journey)
+
+  const { stationsResponse, stationsLoading, stationSearch } = useSelector((state: RootState) => state.station)
   const dispatch: Dispatch<any> = useDispatch()
 
   const [departureStation, setDepartureStation] = useState<any>('')
@@ -39,15 +42,15 @@ const AddJourneyDialog: React.FC<any> = () => {
   const [distance, setDistance] = useState(0)
   const [duration, setDuration] = useState(0)
 
-  const addJourneyErrorsFound = () : boolean => {
-    if(!departureStation || !departureTime || !returnStation || !returnTime || !distance || !duration){
+  const addJourneyErrorsFound = (): boolean => {
+    if (!departureStation || !departureTime || !returnStation || !returnTime || !distance || !duration) {
       return true
     }
     return false
   }
 
   useEffect(() => {
-    dispatch(fetchStations(search))
+    dispatch(fetchStations(stationSearch))
   }, [dispatch])
 
   const handleClickOpen = () => {
@@ -74,8 +77,17 @@ const AddJourneyDialog: React.FC<any> = () => {
     setDuration(Number(event.target.value))
   }
 
+  const resetFields = () => {
+    setDepartureStation('')
+    setDepartureTime(new Date())
+    setReturnStation('')
+    setReturnTime(new Date())
+    setDistance(0)
+    setDuration(0)
+  }
+
   const handleAdd = () => {
-    if(!addJourneyErrorsFound()){
+    if (!addJourneyErrorsFound()) {
       const newJourney = {
         departure: departureTime,
         return: returnTime,
@@ -85,10 +97,20 @@ const AddJourneyDialog: React.FC<any> = () => {
         returnStationName: returnStation.nimi,
         coveredDistance: distance,
         duration: duration,
-
       }
-      dispatch(createJourney(newJourney))
-      setOpen(false)
+
+      journeyService.createJourney(newJourney).then((result) => {
+        if(result){
+          dispatch(fetchJourneys(journeySearch))
+          dispatch(setAlert({ open: true, severity: AlertSeverity.Success, message: 'Journey added successfully!', duration: 7000 }))
+          setOpen(false)
+          resetFields()
+        }
+      }).catch((error:any) => {
+        const errMsg = error?.response?.data?.messge ? error?.response?.data?.messge : error?.messge
+        dispatch(setAlert({ open: true, severity: AlertSeverity.Error, message: errMsg, duration: null }))
+      })
+
     }
   }
 
@@ -109,7 +131,7 @@ const AddJourneyDialog: React.FC<any> = () => {
           },
         }}
       >
-        <DialogTitle sx={{fontSize: '24px'}}>Add New Journey</DialogTitle>
+        <DialogTitle sx={{ fontSize: '24px' }}>Add New Journey</DialogTitle>
         <DialogContent dividers>
           <Grid
             container
@@ -228,9 +250,17 @@ const AddJourneyDialog: React.FC<any> = () => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ m:1 }}>
-          <Button variant='outlined' onClick={handleClose}>Cancel</Button>
-          <Button variant='contained' disabled={addJourneyErrorsFound() ? true : false} onClick={handleAdd}>Add</Button>
+        <DialogActions sx={{ m: 1 }}>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disabled={addJourneyErrorsFound() ? true : false}
+            onClick={handleAdd}
+          >
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

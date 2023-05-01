@@ -1,6 +1,5 @@
 // Station action types
 export const FETCH_STATIONS = 'FETCH_STATIONS'
-export const CREATE_STATION = 'CREATE_STATION'
 export const SET_STATION_SEARCH = 'SET_STATION_SEARCH'
 export const GET_STATION_STATS = 'GET_STATION_STATS'
 export const SET_STATIONS_LOADING = 'SET_STATIONS_LOADING'
@@ -9,11 +8,6 @@ export const SET_CURRENT_STATION_LOADING = 'SET_CURRENT_STATION_LOADING'
 
 type FetchStationsAction = {
   type: typeof FETCH_STATIONS
-  data: any
-};
-
-type CreateStationAction = {
-  type: typeof CREATE_STATION
   data: any
 };
 
@@ -37,7 +31,7 @@ type SetCurrentStationLoadingAction = {
   data: boolean
 };
 
-export type StationAction = FetchStationsAction | CreateStationAction | SetStationSearchAction | GetStationStatsAction | SetStationsLoadingAction | SetCurrentStationLoadingAction;
+export type StationAction = FetchStationsAction  | SetStationSearchAction | GetStationStatsAction | SetStationsLoadingAction | SetCurrentStationLoadingAction;
 
 export interface IStationDoc {
   _id?: any
@@ -72,7 +66,7 @@ export type StationsResponse = {
 export type StationState = {
   stationsResponse: StationsResponse,
   stationsLoading: boolean,
-  search: StationSearch,
+  stationSearch: StationSearch,
   currentStation: any,
   currentStationLoading: boolean
 };

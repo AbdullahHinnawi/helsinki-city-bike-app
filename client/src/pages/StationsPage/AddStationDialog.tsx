@@ -17,7 +17,10 @@ import {
 } from '@mui/material'
 import { RootState } from '../../store'
 import { useDispatch, useSelector } from 'react-redux'
-import { createStation } from '../../actions/stationActions'
+import { fetchStations } from '../../actions/stationActions'
+import stationService from '../../services/stationService'
+import { setAlert } from '../../actions/AlertActions'
+import { AlertSeverity } from '../../types/AlertTypes'
 
 /**
  * @component
@@ -26,7 +29,7 @@ import { createStation } from '../../actions/stationActions'
 const AddStationDialog: React.FC<any> = () => {
   const [open, setOpen] = React.useState(false)
 
-  const { stationsResponse, stationsLoading, search } = useSelector(
+  const { stationsResponse, stationsLoading, stationSearch } = useSelector(
     (state: RootState) => state.station
   )
   const dispatch: Dispatch<any> = useDispatch()
@@ -79,6 +82,15 @@ const AddStationDialog: React.FC<any> = () => {
     setLng(Number(event.target.value))
   }
 
+  const resetFields = () => {
+    setName('')
+    setAddress('')
+    setCity('helsinki')
+    setCapacity(10)
+    setLat(60.1699)
+    setLng(24.9384)
+  }
+
   const handleAdd = () => {
     if(!addStationErrorsFound()){
       const newStation = {
@@ -89,8 +101,18 @@ const AddStationDialog: React.FC<any> = () => {
         x:lat,
         y:lng
       }
-      dispatch(createStation(newStation))
-      setOpen(false)
+
+      stationService.createStation(newStation).then((result) => {
+        if(result){
+          dispatch(fetchStations(stationSearch))
+          dispatch(setAlert({ open: true, severity: AlertSeverity.Success, message: 'Station added successfully!', duration: 7000 }))
+          setOpen(false)
+          resetFields()
+        }
+      }).catch((error:any) => {
+        const errMsg = error?.response?.data?.messge ? error?.response?.data?.messge : error?.messge
+        dispatch(setAlert({ open: true, severity: AlertSeverity.Error, message: errMsg, duration: null }))
+      })
     }
   }
 

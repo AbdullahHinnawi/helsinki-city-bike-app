@@ -9,7 +9,7 @@ export const initialJourneySearch: JourneySearch = {
 }
 const initialState: JourneyState = {
   journeysResponse: undefined,
-  search: initialJourneySearch,
+  journeySearch: initialJourneySearch,
   journeysLoading: false
 }
 /**
@@ -33,7 +33,7 @@ const journeyReducer = (state = initialState, action: JourneyAction) => {
   case SET_JOURNEY_SEARCH:
     return {
       ...state,
-      search: action.data,
+      journeySearch: action.data,
     }
   case SET_JOURNEYS_LOADING:
     return {
