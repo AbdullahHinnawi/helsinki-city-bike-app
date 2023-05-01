@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { baseUrl } from '../utils/config'
+
+const baseApiUri = process.env.REACT_APP_BASE_API_URI
 
 /**
  * @function
@@ -7,7 +8,7 @@ import { baseUrl } from '../utils/config'
  * @returns
  */
 const getStations = async (reqBody: any) => {
-  const res = await axios.post(`${baseUrl}/api/stations`, reqBody)
+  const res = await axios.post(`${baseApiUri}/api/stations`, reqBody)
   return res.data
 }
 
@@ -18,7 +19,7 @@ const getStations = async (reqBody: any) => {
  * @returns created station object
  */
 const createStation = async (newStation: any) => {
-  const res = await axios.post(`${baseUrl}/api/stations/create`, newStation)
+  const res = await axios.post(`${baseApiUri}/api/stations/create`, newStation)
   return res.data
 }
 
@@ -28,7 +29,7 @@ const createStation = async (newStation: any) => {
  * @returns
  */
 const getStationStats = async (stationId: number, startDate: string | undefined, endDate: string | undefined) => {
-  const res = await axios.get(`${baseUrl}/api/stations/${stationId}/${startDate}/${endDate}`)
+  const res = await axios.get(`${baseApiUri}/api/stations/${stationId}/${startDate}/${endDate}`)
   return res.data
 }
 
