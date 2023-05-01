@@ -31,9 +31,7 @@ const stationSchema: Schema = new mongoose.Schema({
     type: String
   },
   kaupunki: {
-    type: String,
-    enum: ["espoo", "helsinki"],
-    required: true
+    type: String
   },
   stad: {
     type: String,
