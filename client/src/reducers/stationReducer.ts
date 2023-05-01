@@ -1,4 +1,4 @@
-import { StationState, StationAction, FETCH_STATIONS, CREATE_STATION, StationSearch, SET_STATION_SEARCH, GET_STATION_STATS, SET_CURRENT_STATION_LOADING, SET_STATIONS_LOADING } from '../types/stationTypes'
+import { StationState, StationAction, FETCH_STATIONS, StationSearch, SET_STATION_SEARCH, GET_STATION_STATS, SET_CURRENT_STATION_LOADING, SET_STATIONS_LOADING } from '../types/stationTypes'
 
 export const initialStationSearch: StationSearch = {
   query: {},
@@ -27,11 +27,6 @@ const stationReducer = (state = initialState, action: StationAction) => {
     return {
       ...state,
       stationsResponse: action.data,
-    }
-  case CREATE_STATION:
-    return {
-      ...state,
-      stationsResponse: { ...state.stationsResponse, docs: [...state.stationsResponse.docs, action.data] },
     }
   case SET_STATION_SEARCH:
     return {

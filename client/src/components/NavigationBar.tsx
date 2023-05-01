@@ -81,9 +81,6 @@ const NavigationBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Home</Typography>
-              </MenuItem>
               <MenuItem
                 component={Link}
                 to="/stations"
@@ -119,16 +116,6 @@ const NavigationBar = () => {
             City Bikes
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Box
-              component={Link}
-              to="/"
-              sx={{ textDecoration: 'none', color: '#000' }}
-            >
-              <Button disableRipple sx={btnStyles}>
-                Home
-              </Button>
-            </Box>
-
             <Box
               component={Link}
               to="/stations"

@@ -1,4 +1,4 @@
-import { JourneyAction, FETCH_JOURNEYS, CREATE_JOURNEY, JourneyState, SET_JOURNEY_SEARCH, JourneySearch, SET_JOURNEYS_LOADING } from './../types/journeyTypes'
+import { JourneyAction, FETCH_JOURNEYS, JourneyState, SET_JOURNEY_SEARCH, JourneySearch, SET_JOURNEYS_LOADING } from './../types/journeyTypes'
 
 export const initialJourneySearch: JourneySearch = {
   query: {},
@@ -24,11 +24,6 @@ const journeyReducer = (state = initialState, action: JourneyAction) => {
     return {
       ...state,
       journeysResponse: action.data
-    }
-  case CREATE_JOURNEY:
-    return {
-      ...state,
-      journeysResponse: { ...state.journeysResponse, docs: [...state.journeysResponse.docs, action.data] },
     }
   case SET_JOURNEY_SEARCH:
     return {
