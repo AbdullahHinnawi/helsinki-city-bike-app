@@ -6,8 +6,10 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
+    "import-data": "ts-node data.ts",
     "dev": "ts-node-dev index.ts",
-    "insert-data": "ts-node data.ts",
+    "client": "cd client && npm start",
+    "fullstack": "concurrently \"npm run dev\" \"npm run client\"",
     "lint": "eslint --ext .ts .",
     "start": "node build/index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand"
@@ -23,6 +25,7 @@
   },
   "homepage": "https://github.com/AbdullahHinnawi/helsinki-city-bike-app#readme",
   "dependencies": {
+    "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

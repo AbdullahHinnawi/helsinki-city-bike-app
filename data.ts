@@ -8,7 +8,7 @@ import logger from './utils/logger';
 import { IStationDocument } from './types/modelTypes';
 
 /**
- * @info To run this module use:  npm run insert-data
+ * @info To run this module use:  npm run import-data
  * @info This module is used to import journeys datasets and bike stations (located in datasets folder) into the db
  */
 
