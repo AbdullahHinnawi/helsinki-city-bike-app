@@ -23,33 +23,33 @@ const initialState: StationState = {
  */
 const stationReducer = (state = initialState, action: StationAction) => {
   switch (action.type) {
-  case FETCH_STATIONS:
-    return {
-      ...state,
-      stationsResponse: action.data,
-    }
-  case SET_STATION_SEARCH:
-    return {
-      ...state,
-      stationSearch: action.data,
-    }
-  case SET_STATIONS_LOADING:
-    return {
-      ...state,
-      stationsLoading: action.data,
-    }
-  case SET_CURRENT_STATION_LOADING:
-    return {
-      ...state,
-      currentStationLoading: action.data,
-    }
-  case GET_STATION_STATS:
-    return {
-      ...state,
-      currentStation: action.data,
-    }
-  default:
-    return state
+    case FETCH_STATIONS:
+      return {
+        ...state,
+        stationsResponse: action.data,
+      }
+    case SET_STATION_SEARCH:
+      return {
+        ...state,
+        stationSearch: action.data,
+      }
+    case SET_STATIONS_LOADING:
+      return {
+        ...state,
+        stationsLoading: action.data,
+      }
+    case SET_CURRENT_STATION_LOADING:
+      return {
+        ...state,
+        currentStationLoading: action.data,
+      }
+    case GET_STATION_STATS:
+      return {
+        ...state,
+        currentStation: action.data,
+      }
+    default:
+      return state
   }
 }
 

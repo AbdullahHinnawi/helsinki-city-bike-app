@@ -145,7 +145,7 @@ const AddStationDialog: React.FC<any> = () => {
               <Typography variant="h6">Name and Capacity</Typography>
             </Grid>
             <Grid item xs={6} sx={{ mb: 2 }}>
-            <TextField
+              <TextField
                 fullWidth
                 size="small"
                 label="Station Name"
@@ -156,7 +156,7 @@ const AddStationDialog: React.FC<any> = () => {
               />
             </Grid>
             <Grid item xs={6} sx={{ mb: 2 }}>
-            <TextField
+              <TextField
                 fullWidth
                 size="small"
                 id="datetime-local"
@@ -174,7 +174,7 @@ const AddStationDialog: React.FC<any> = () => {
               <Typography variant="h6">Address and City</Typography>
             </Grid>
             <Grid item xs={6} sx={{ mb: 2 }}>
-            <TextField
+              <TextField
                 fullWidth
                 size="small"
                 id="datetime-local"
@@ -209,7 +209,7 @@ const AddStationDialog: React.FC<any> = () => {
               <Typography variant="h6">Coordinates</Typography>
             </Grid>
             <Grid item xs={6} sx={{ mb: 2 }}>
-            <TextField
+              <TextField
                 fullWidth
                 size="small"
                 id="datetime-local"
@@ -224,7 +224,7 @@ const AddStationDialog: React.FC<any> = () => {
               />
             </Grid>
             <Grid item xs={6} sx={{ mb: 2 }}>
-            <TextField
+              <TextField
                 fullWidth
                 size="small"
                 id="datetime-local"

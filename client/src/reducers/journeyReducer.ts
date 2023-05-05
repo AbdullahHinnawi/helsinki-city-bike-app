@@ -20,23 +20,23 @@ const initialState: JourneyState = {
  */
 const journeyReducer = (state = initialState, action: JourneyAction) => {
   switch (action.type) {
-  case FETCH_JOURNEYS:
-    return {
-      ...state,
-      journeysResponse: action.data
-    }
-  case SET_JOURNEY_SEARCH:
-    return {
-      ...state,
-      journeySearch: action.data,
-    }
-  case SET_JOURNEYS_LOADING:
-    return {
-      ...state,
-      journeysLoading: action.data,
-    }
-  default:
-    return state
+    case FETCH_JOURNEYS:
+      return {
+        ...state,
+        journeysResponse: action.data
+      }
+    case SET_JOURNEY_SEARCH:
+      return {
+        ...state,
+        journeySearch: action.data,
+      }
+    case SET_JOURNEYS_LOADING:
+      return {
+        ...state,
+        journeysLoading: action.data,
+      }
+    default:
+      return state
   }
 }
 
