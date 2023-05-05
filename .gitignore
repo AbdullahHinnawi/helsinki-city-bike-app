@@ -2,6 +2,8 @@
 node_modules
 datasets
 .env
+dist
+build
 
 # Client
 client/node_modules
