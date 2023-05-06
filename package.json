@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "proxy": "http://localhost:3001",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "tsc": "tsc",
+    "build": "tsc && cd client && npm run build && cp -r build ../dist",
     "import-data": "ts-node data.ts",
     "dev": "ts-node-dev index.ts",
     "client": "cd client && npm start",
     "fullstack": "concurrently \"npm run dev\" \"npm run client\"",
     "lint": "eslint --ext .ts .",
-    "start": "node build/index.js",
+    "start": "NODE_ENV=production node dist/index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "fast-csv": "^4.3.6",
     "mongoose": "^7.0.3",
     "mongoose-paginate-v2": "^1.7.1",
+    "path": "^0.12.7",
     "typescript": "^5.0.2"
   },
   "devDependencies": {

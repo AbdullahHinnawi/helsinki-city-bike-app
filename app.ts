@@ -6,6 +6,7 @@ import logger from './utils/logger'
 import { connectToDB } from './db/db'
 import stationsRouter from './controllers/stations'
 import journeysRouter from './controllers/journeys'
+import path from 'path'
 
 
 const app = express();
@@ -17,13 +18,21 @@ const app = express();
 })();
 
 app.use(cors())
-app.use(express.static('build'))
+
+app.get('/', (_, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'), { lastModified: false, etag: false })
+});
+app.use(express.static(path.resolve(__dirname, 'build')))
+
 app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/stations', stationsRouter)
 app.use('/api/journeys', journeysRouter)
 
+app.get('*', (_, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'), { lastModified: false, etag: false });
+})
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
