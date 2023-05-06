@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "tsc": "tsc",
-    "build": "tsc && cd client && npm run build && cp -r build ../dist",
+    "build": "tsc && cd client && npm install && npm run build && cp -r build ../dist",
     "import-data": "ts-node data.ts",
     "dev": "ts-node-dev index.ts",
     "client": "cd client && npm start",
