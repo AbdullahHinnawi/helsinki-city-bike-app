@@ -2,6 +2,11 @@
 
 > This is the pre-assignment solution for Solita Dev Academy Finland 2023.
 
+### ✨ [Running version on Heroku](https://citybikes.herokuapp.com/)
+
+> \*Note: Heroku puts the app to sleep after 30 minutes of inactivity. This means
+> that the app will take some time (about 5-10 seconds or more) to wake up again.
+
 ## Frontend technologies
 
 - React
@@ -23,6 +28,7 @@
 - All recommended and additional features have been implemented
 - Endpoints and UI to store new journeys and stations
 - Jest tests (backend level)
+- Running version on Heroku
 
 ## How to run locally?
 
@@ -121,19 +127,25 @@ Then import the data using:
 npm run import-data
 ```
 
-## Screenshots of the City Bikes app
+## Screenshots of the City Bikes App
 
-Stations
+### Stations
+![stations](./screenshots/stations.png)
 
-Station statistics
+### Station Statistics
+![stationStatistics](./screenshots/station-stats.png)
 
-Journeys
+### Journeys
+![journeys](./screenshots/journeys.png)
 
-Add New Journey
+### Add New Journey
+![addJourney](./screenshots/add-journey.png)
 
 ## Author
 
 👤 **Abdullah Hinnawi**
 
 - [Portfolio](https://abdullahhinnawi.com/)
+- [Linkedin](https://www.linkedin.com/in/abdullah-hinnawi-426465198/)
+- [GitHub](https://github.com/abdullahHinnawi)
 
