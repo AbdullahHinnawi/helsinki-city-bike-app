@@ -1,0 +1,258 @@
+components:
+  schemas:
+    Station:
+      type: object
+      properties:
+        _id:
+          type: string
+        fid:
+          type: number
+        stationId:
+          type: number
+        nimi:
+          type: string
+        namn:
+          type: string
+        name:
+          type: string
+        osoite:
+          type: string
+        address:
+          type: string
+        kaupunki:
+          type: string
+        stad:
+          type: string
+        operaattor:
+          type: string
+        kapasiteet:
+          type: number
+        x:
+          type: number
+        y:
+          type: number
+      example:
+        _id: 645684ca02be146d3c27f814
+        fid: 1
+        stationId: 501
+        nimi: Hanasaari
+        namn: Hanaholmen
+        name: Hanasaari
+        osoite: Hanasaarenranta 1
+        address: Hanaholmsstranden 1
+        kaupunki: Espoo
+        stad: Esbo
+        operaattor: CityBike Finland
+        kapasiteet: 10
+        x: 60.16582
+        y: 24.840319
+    Journey:
+      type: object
+      properties:
+        _id:
+          type: string
+        departure:
+          type: date
+        return:
+          type: date
+        departureStationId:
+          type: number
+        departureStationName:
+          type: string
+        returnStationId:
+          type: number
+        returnStationName:
+          type: string
+        coveredDistance:
+          type: number
+        duration:
+          type: number
+      example:
+        _id: 645684ca02be146d3c27f62e
+        departure: '2021-05-31T20:57:25.000Z'
+        return: '2021-05-31T21:05:46.000Z'
+        departureStationId: 94
+        departureStationName: Laajalahden aukio
+        returnStationId: 100
+        returnStationName: Teljäntie
+        coveredDistance: 2043
+        duration: 500
+    ErrorRes:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Error message
+    BaseReqBody:
+      type: object
+      properties:
+        query:
+          type: object
+        options:
+          type: object
+          properties:
+            page: number
+            limit: number
+      example:
+        query: {}
+        options:
+          page: 1
+          limit: 100
+    StationsRes:
+      type: object
+      properties:
+        docs:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Station'
+        totalDocs:
+          type: number
+        limit:
+          type: number
+        totalPages:
+          type: number
+        page:
+          type: number
+        pagingCounter:
+          type: number
+        hasPrevPage:
+          type: boolean
+        hasNextPage:
+          type: boolean
+        prevPage:
+          type: number
+        nextPage:
+          type: number
+      example:
+        docs: [
+          {
+            _id: 645684ca02be146d3c27f814,
+            fid: 1,
+            stationId: 501,
+            nimi: Hanasaari,
+            namn: Hanaholmen,
+            name: Hanasaari,
+            osoite: Hanasaarenranta 1,
+            address: Hanaholmsstranden 1,
+            kaupunki: Espoo,
+            stad: Esbo,
+            operaattor: CityBike Finland,
+            kapasiteet: 10,
+            x: 60.16582,
+            y: 24.840319,
+            __v: 0
+          }
+        ]
+        totalDocs: 457
+        limit: 100
+        totalPages: 5
+        page: 1
+        pagingCounter: 1
+        hasPrevPage: false
+        hasNextPage: true
+        prevPage: null
+        nextPage: 2
+    CreateStationReqBody:
+      type: object
+      properties:
+        nimi:
+          type: string
+        osoite:
+          type: string
+        kaupunki:
+          type: string
+        kapasiteet:
+          type: number
+        x:
+          type: number
+        y:
+          type: number
+      example:
+        nimi: Hanasaari
+        osoite: Hanasaarenranta 1
+        kaupunki: Espoo
+        kapasiteet: 10
+        x: 60.16582
+        y: 24.840319
+    JourneysRes:
+      type: object
+      properties:
+        docs:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Journey'
+        totalDocs:
+          type: number
+        limit:
+          type: number
+        totalPages:
+          type: number
+        page:
+          type: number
+        pagingCounter:
+          type: number
+        hasPrevPage:
+          type: boolean
+        hasNextPage:
+          type: boolean
+        prevPage:
+          type: number
+        nextPage:
+          type: number
+      example:
+        docs: [
+          {
+            _id: 645684ca02be146d3c27f62e,
+            departure: '2021-05-31T20:57:25.000Z',
+            return: '2021-05-31T21:05:46.000Z',
+            departureStationId: 94,
+            departureStationName: Laajalahden aukio,
+            returnStationId: 100,
+            returnStationName: Teljäntie,
+            coveredDistance: 2043,
+            duration: 500,
+            __v: 0,
+
+          }
+        ]
+        totalDocs: 457
+        limit: 100
+        totalPages: 5
+        page: 1
+        pagingCounter: 1
+        hasPrevPage: false
+        hasNextPage: true
+        prevPage: null
+        nextPage: 2
+    CreateJourneyReqBody:
+      type: object
+      properties:
+        departure:
+          type: date
+        return:
+          type: date
+        departureStationId:
+          type: number
+        departureStationName:
+          type: string
+        returnStationId:
+          type: number
+        returnStationName:
+          type: string
+        coveredDistance:
+          type: number
+        duration:
+          type: number
+      example:
+        departure: '2021-05-31T20:57:25.000Z'
+        return: '2021-05-31T21:05:46.000Z'
+        departureStationId: 94
+        departureStationName: Laajalahden aukio
+        returnStationId: 100
+        returnStationName: Teljäntie
+        coveredDistance: 2043
+        duration: 500
+

@@ -7,7 +7,8 @@ import { connectToDB } from './db/db'
 import stationsRouter from './controllers/stations'
 import journeysRouter from './controllers/journeys'
 import path from 'path'
-
+import swaggerUi from "swagger-ui-express"
+import swaggerDocument from './docs/generateSwaggerDoc'
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger)
 
 app.use('/api/stations', stationsRouter)
 app.use('/api/journeys', journeysRouter)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.get('*', (_, res) => {
   res.sendFile(path.resolve(__dirname, 'build', 'index.html'), { lastModified: false, etag: false });

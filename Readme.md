@@ -7,6 +7,8 @@
 > \*Note: Heroku puts the app to sleep after 30 minutes of inactivity. This means
 > that the app will take some time (about 5-10 seconds or more) to wake up again.
 
+### ✨ [API Documentation](https://citybikes.herokuapp.com/api-docs)
+
 ## Frontend technologies
 
 - React
@@ -29,6 +31,7 @@
 - Endpoints and UI to store new journeys and stations
 - Jest tests (backend level)
 - Running version on Heroku
+- API documentation (Swagger)
 
 ## How to run locally?
 
@@ -51,8 +54,8 @@ the following (replace username, password, cluster-name, and database-name with 
 ```sh
 MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-name>.6avck.mongodb.net/<database-name>?retryWrites=true&w=majority
 
-IP=localhost
 PORT=3001
+BASE_URI=http://localhost:3001
 NODE_ENV=development
 
 TEST_MONGODB_URI=mongodb+srv://<username>:<password>@<cluster-name>.6avck.mongodb.net/<database-name>?retryWrites=true&w=majority
@@ -140,6 +143,9 @@ npm run import-data
 
 ### Add New Journey
 ![addJourney](./screenshots/add-journey.png)
+
+### API Documetation
+![apiDocs](./screenshots/swagger-docs.png)
 
 ## Author
 
