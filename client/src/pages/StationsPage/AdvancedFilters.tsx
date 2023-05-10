@@ -52,9 +52,8 @@ const AdvancedFilters = () => {
 
   const handleSearchClick = () => {
     const newSearch: StationSearch = {
-      ...stationSearch,
       query: {
-        ...stationSearch.query,
+        basicFilter: false,
         nameOrAddress: nameOrAddress,
         logicalOperator: logicalOperator,
         capacityOperator: capacityOperator,
@@ -62,7 +61,7 @@ const AdvancedFilters = () => {
       },
       options: {
         page: 1,
-        limit: 50
+        limit: 100
       }
     }
     dispatch(setStationSearch(newSearch))

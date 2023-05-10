@@ -69,9 +69,8 @@ const AdvancedFilters = () => {
 
   const handleSearchClick = () => {
     const newSearch: JourneySearch = {
-      ...journeySearch,
       query: {
-        ...journeySearch.query,
+        basicFilter: false,
         stationName: stationName,
         firstLogicalOperator: firstLogicalOperator,
         distanceOperator: distanceOperator,
@@ -82,7 +81,7 @@ const AdvancedFilters = () => {
       },
       options: {
         page: 1,
-        limit: 50,
+        limit: 100,
       },
     }
     dispatch(setJourneySearch(newSearch))
