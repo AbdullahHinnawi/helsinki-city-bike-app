@@ -13,10 +13,44 @@ const journeysRouter = express.Router()
  *      tags: [Journeys]
  *      requestBody:
  *        required: true
+ *        description: Please choose All Journeys, Basic Filters or Advanced Filters from the selection options below to view the appropriate example.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: "#/components/schemas/BaseReqBody"
+ *              allOf:
+ *                - $ref: "#/components/schemas/BaseReqBody"
+ *            examples:
+ *                AllJourneys:
+ *                  summary: All Journeys
+ *                  value:
+ *                    query: {}
+ *                    options:
+ *                      page: 1
+ *                      limit: 100
+ *                BasicFilters:
+ *                  summary: Basic Filters
+ *                  value:
+ *                    query:
+ *                      basicFilter: true
+ *                      stationName: kaivopuisto
+ *                    options:
+ *                      page: 1
+ *                      limit: 100
+ *                AdvancedFilters:
+ *                    summary: Advanced Filters
+ *                    value:
+ *                      query:
+ *                        basicFilter: false
+ *                        stationName: kaivopuisto
+ *                        firstLogicalOperator: or
+ *                        distanceOperator: gt
+ *                        distanceValue: 2
+ *                        secondLogicalOperator: and
+ *                        durationOperator: lte
+ *                        durationValue: 60
+ *                      options:
+ *                        page: 1
+ *                        limit: 100
  *      responses:
  *        "200":
  *          description: Returns journey docs supported with MongoDB pagination. Returned docs depend on the request body criteria.

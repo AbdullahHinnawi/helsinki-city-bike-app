@@ -13,7 +13,7 @@ const stationsRouter = express.Router()
  *      tags: [Stations]
  *      requestBody:
  *        required: true
- *        description: Please select All Stations, Basic Filters or Advanced Filters from the select element below to show the proper example.
+ *        description: Please choose All Stations, Basic Filters or Advanced Filters from the selection options below to view the appropriate example.
  *        content:
  *          application/json:
  *            schema:
