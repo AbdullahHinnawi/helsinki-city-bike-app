@@ -13,10 +13,41 @@ const stationsRouter = express.Router()
  *      tags: [Stations]
  *      requestBody:
  *        required: true
+ *        description: Please select All Stations, Basic Filters or Advanced Filters from the select element below to show the proper example.
  *        content:
  *          application/json:
  *            schema:
- *               $ref: "#/components/schemas/BaseReqBody"
+ *              allOf:
+ *                - $ref: "#/components/schemas/BaseReqBody"
+ *            examples:
+ *                AllStations:
+ *                  summary: All Stations
+ *                  value:
+ *                    query: {}
+ *                    options:
+ *                      page: 1
+ *                      limit: 100
+ *                BasicFilters:
+ *                  summary: Basic Filters
+ *                  value:
+ *                    query:
+ *                      basicFilter: true
+ *                      nameOrAddress: yhdyskunnankuja
+ *                    options:
+ *                      page: 1
+ *                      limit: 100
+ *                AdvancedFilters:
+ *                    summary: Advanced Filters
+ *                    value:
+ *                      query:
+ *                        basicFilter: false
+ *                        nameOrAddress: yhdyskunnankuja
+ *                        logicalOperator: or
+ *                        capacityOperator: gt
+ *                        capacityValue: 30
+ *                      options:
+ *                        page: 1
+ *                        limit: 100
  *      responses:
  *        "200":
  *          description: Returns station docs supported with MongoDB pagination. Returned docs depend on the request body criteria.
